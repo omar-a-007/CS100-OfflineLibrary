@@ -1,15 +1,5 @@
 # Efficient Library System
 Authors: [Omar Al-kurd](https://github.com/omar-a-007), [Sevak Ohanian](https://github.com/SevakOhanian7), [Xirong Xie](https://github.com/xxie043)
- 
-
-## Project Description
- * Input/Output
-  ** Since it's a Library system program, inputs for members will be: borrow/return books, searching. For administrators will be: edit information of members and books. The  system will also output the information of members and books. It will output recommandation and research result as well.
- 
-  * Patterns
-  ** In this lab we will use the following patterns:
-  *** Composite: This pattern will be used for system manage. For example, after creating an administrator class, it can access to catetory or books directly. The administrator class will be able to edit category objects from itself. Basically, the design pattern can help create a class which can be used to build hierarchy of objects in the database of library. After that, it will be more convenient to track the data. 
-
 
 ## Project Description
 The Effecient Library System is a tool that enables members to catalog a variety of media, spanning across any number of categories and genres. The tool is designed to support effecient storage and retrieval as well as intuitive catalog displays. By logining in the system, users can check their accounts' status, including account grade,    borrow and return history, debt. There are more functions for users, such as borrow, return, and searching. The system will also store books' information for users to search. Books will be organized under different genres/sub-genres. The system will also provide recommendations to users based on their previous reading history. For system manage, administrative accounts will be able to edit both members' and books' information. The administrator can access the member's status; for example, to see if they returned books on time. The administrator can also access books' information; the admin can change the borrow/return status of media and modify the category/genre information.
@@ -33,6 +23,8 @@ The Effecient Library System is a tool that enables members to catalog a variety
  The inputs and outputs will depend on where in the program the user is.
  * Initially, the user will be promopted to login. The inputs will be the username and password, the output whether login was successful.
  * Following succesful login, users will be presented a menu from which they will be able to access (view) their catalog or modify (add/edit/remove) entries within their catalog.
+ * * Inputs for members will include: borrow/return books as well as searching for books. For administrators: edit information of members and books.
+ * * The system will also output the information of members and books.
  
  ### Design Patterns
 **Composite**: The composite design pattern will be used for system management. For example, after creating an administrator class, it can access catetory or books directly. The administrator class will be able to edit category objects from itself. Basically, the design pattern can help create a class which can be used to build hierarchy of objects in the database of library. After that, it will be more convenient to track the data. 
