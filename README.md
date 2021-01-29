@@ -7,7 +7,7 @@ The Effecient Library System is a tool that enables users to catalog a variety o
 ### Why a library system?
 Omar: A Library allows us to explore a variety of design patterns and structures as well as interact with data that is only visible dependent upon the logged in user. With a library system, we can incorporate database technology into our toolset. 
 
-Sevak:
+Sevak: The Library System requires variables independent for each user, which is an important skill for projects in the future. Storing user login-information and creating individualized book recommendations is an instructive portion of the project which I look forward to. 
 
 Xirong: 
 
