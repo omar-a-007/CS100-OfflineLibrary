@@ -1,20 +1,33 @@
 # Efficient Library System
-Authors: [Omar Al-kurd](https://github.com/omar-a-007), [Sevak Ohanian](https://github.com/SevakOhanian7), [Xirong Xie](https://github.com/XirongXie)
+Authors: [Omar Al-kurd](https://github.com/omar-a-007), [Sevak Ohanian](https://github.com/SevakOhanian7), [Xirong Xie](https://github.com/xxie043)
  
+
 ## Project Description
-The Effecient Library System is a tool that enables users to catalog a variety of media, spanning across any number of categories and genres. The tool is designed to support effecient storage and retrieval as well as intuitive catalog displays.
+ * Input/Output
+  ** Since it's a Library system program, inputs for members will be: borrow/return books, searching. For administrators will be: edit information of members and books. The  system will also output the information of members and books. It will output recommandation and research result as well.
+ 
+  * Patterns
+  ** In this lab we will use the following patterns:
+  *** Composite: This pattern will be used for system manage. For example, after creating an administrator class, it can access to catetory or books directly. The administrator class will be able to edit category objects from itself. Basically, the design pattern can help create a class which can be used to build hierarchy of objects in the database of library. After that, it will be more convenient to track the data. 
+
+
+## Project Description
+The Effecient Library System is a tool that enables members to catalog a variety of media, spanning across any number of categories and genres. The tool is designed to support effecient storage and retrieval as well as intuitive catalog displays. By logining in the system, users can check their accounts' status, including account grade,    borrow and return history, debt. There are more functions for users, such as borrow, return, and searching. The system will also store books' information for users to search. Books will be organized under different genres/sub-genres. The system will also provide recommendations to users based on their previous reading history. For system manage, administrative accounts will be able to edit both members' and books' information. The administrator can access the member's status; for example, to see if they returned books on time. The administrator can also access books' information; the admin can change the borrow/return status of media and modify the category/genre information.
 
 ### Why a library system?
 "A library will allow us to explore a variety of design patterns and structures as well as interact with data that is only visible dependent upon the logged in user. With a library system, we can incorporate database technology into our toolset." ~ Omar
 
 "The Library System requires variables independent for each user, which is an important skill for projects in the future. Storing user login-information and creating individualized book recommendations is an instructive portion of the project which I look forward to." ~ Sevak
 
-Xirong
+"Our team picked this program because we are interested in the login system and database. Another primary reason is program is pretty straightforward so we can add more functions to make it a little bit "complex" but works more efficiently." ~ Xirong
 
 
  ### Languages/tools/technologies
  The Effecient Library System will be programmed in C++
  * We will be exploring [Firebase](https://firebase.google.com/docs/database/cpp/start) as a database system - Firebase is a Real Time Database developed by Google that utilizes a NoSQL cloud database infrastructure.
+ * [Git+Github](https://github.com/) - Version Control and Repsotory systems
+ * [GoogleTest](https://github.com/google/googletest) - C++ Unit Testing Framework developed by Google
+ * [https://valgrind.org/] - Memory Debugging and Profiling utility to help identify memory leaks and other memory related issues.
  
  ### Inputs and Outputs (IO)
  The inputs and outputs will depend on where in the program the user is.
@@ -22,6 +35,8 @@ Xirong
  * Following succesful login, users will be presented a menu from which they will be able to access (view) their catalog or modify (add/edit/remove) entries within their catalog.
  
  ### Design Patterns
+**Composite**: The composite design pattern will be used for system management. For example, after creating an administrator class, it can access catetory or books directly. The administrator class will be able to edit category objects from itself. Basically, the design pattern can help create a class which can be used to build hierarchy of objects in the database of library. After that, it will be more convenient to track the data. 
+
  **Strategy**: The strategy design pattern will allow us to implement multiple algorithims that are dynamically selected based on criteria such as type of media or display constraints. For instance, when searching or sorting varied media, we will be able to utilize the strategy pattern so that the correct algorithm is used at runtime. 
  
  **Facade**: The Facade design pattern will allow us to encapsulate the more complex or low level operations of the library, keeping the interface offered to the end user simple and intuitive. The more complex subsystems of the program will essentially be hidden away.
