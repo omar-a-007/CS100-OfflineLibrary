@@ -5,23 +5,26 @@ Authors: [Omar Al-kurd](https://github.com/omar-a-007), [Sevak Ohanian](https://
 The Effecient Library System is a tool that enables users to catalog a variety of media, spanning across any number of categories and genres. The tool is designed to support effecient storage and retrieval as well as intuitive catalog displays.
 
 ### Why a library system?
-Omar: A Library allows us to explore a variety of design patterns and structures as well as interact with data that is only visible dependent upon the logged in user. With a library system, we can incorporate database technology into our toolset. 
+"A library will allow us to explore a variety of design patterns and structures as well as interact with data that is only visible dependent upon the logged in user. With a library system, we can incorporate database technology into our toolset." ~ Omar
 
-Sevak:
+Sevak
 
-Xirong: 
+Xirong
 
 
- ## Languages/tools/technologies
+ ### Languages/tools/technologies
  The Effecient Library System will be programmed in C++
  * We will be exploring [Firebase](https://firebase.google.com/docs/database/cpp/start) as a database system - Firebase is a Real Time Database developed by Google that utilizes a NoSQL cloud database infrastructure.
  
- > * What will be the input/output of your project?
- > * What are the two design patterns you will be using? For each design pattern you must explain in 4-5 sentences:
- >   * Why you picked this pattern and what feature you will implement with it
- >   * What problem you anticipate encountering when implementing your project that you will solve using the design pattern
- >   * Why the chosen design pattern will lead to a good solution to that problem
- > * This description should be in enough detail that the TA/instructor can determine the complexity of the project and if it is sufficient for the team members to complete in the time allotted. 
+ ### Inputs and Outputs (IO)
+ The inputs and outputs will depend on where in the program the user is.
+ * Initially, the user will be promopted to login. The inputs will be the username and password, the output whether login was successful.
+ * Following succesful login, users will be presented a menu from which they will be able to access (view) their catalog or modify (add/edit/remove) entries within their catalog.
+ 
+ ### Design Patterns
+ Strategy: The strategy design pattern will allow us to implement multiple algorithims that are dynamically selected based on criteria such as type of media or display constraints. For instance, when searching or sorting varied media, we will be able to utilize the strategy pattern so that the correct algorithm is used at runtime. 
+ 
+ Facade: The Facade design pattern will allow us to encapsulate the more complex or low level operations of the library, keeping the interface offered to the end user simple and intuitive. The more complex subsystems of the program will essentially be hidden away.
 
  > ## Phase II
  > In addition to completing the "Class Diagram" section below, you will need to 
