@@ -35,11 +35,6 @@ By logining in the system, users can check their accounts' status, search, borro
  
  **Facade**: The Facade design pattern will allow us to encapsulate the more complex or low level operations of the library, keeping the interface offered to the end user simple and intuitive. The more complex subsystems of the program will essentially be hidden away.
 
- > ## Phase II
- > * Create an "Epic" (note) for each feature and each design pattern and assign them to the appropriate team member. Place these in the `Backlog` column
- > * Complete your first *sprint planning* meeting to plan out the next 7 days of work.
- >   * Create smaller development tasks as issues and assign them to team members. Place these in the `Backlog` column.
- >   * These cards should represent roughly 7 days worth of development time for your team, taking you until your first meeting with the TA
 ## Class Diagram
 ![OMT](./Efficient%20Library%20System%20-%20OMT.png)
 A combination of the Facade, Composition, and Strategy design patterns are used. Overall, the Facade pattern is used to encapsulate the complexity of the various classes and present a simple interface to the Client (user). The Composition class is used to for the catalog of media (books, dvds, audiobooks, etc). By using the composition design pattern, categories of media can have sub categories in an effecient manner. The strategy pattern is used for exporting data, allowing users or admins to export the contents of the library in CSV, JSON, and possibly more classes in the future. 
