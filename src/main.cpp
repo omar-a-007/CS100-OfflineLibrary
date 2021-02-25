@@ -12,7 +12,7 @@ void login();
 int main ()
 {
    Library lib; 
-
+/*
    std::vector<Book*> books1, books2;
    // Fiction
    books1.push_back(new Book("Pride and Prejudice", "Jane Austen", "9780141439518", 480, 9.99));
@@ -37,7 +37,7 @@ int main ()
 
    Category* cat2 = new Category("Non-Ficton");
    for (auto& b : books2) cat2->add(b);
-
+*/
 
     displayMenu(lib);
 }

@@ -54,7 +54,7 @@ class DVD : public Media {
         DVD(std::string Title, std::string Author, int contentLength, double Cost = 19.99)
             : Media(Title, Author, contentLength, Cost) {};
         ~DVD();
-        void display() override {};
+        void display() override;
 };
 
 class Book : public Media {

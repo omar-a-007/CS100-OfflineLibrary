@@ -7,7 +7,7 @@ Library::Library()
 	// Initilaize the Library
 
 	// Setup/Create DB if its not setup yet
-	initDB("library.db3");
+	initDB(DBfile);
 }
 
 
@@ -34,14 +34,16 @@ void Library::initDB(std::string file) /* file = DBfile */
         //std::cout << db.execAndGet("PRAGMA foreign_keys").getInt() << std::endl;
 
         // Initialize tables if they dont exist
-        bool addAdminAcct = db.tableExists("users");
+        bool addAdminAcct = !(db.tableExists("users"));
+
         db.exec("CREATE TABLE IF NOT EXISTS users ("
 					"UID INTEGER PRIMARY KEY, "
                     "email TEXT, "
                     "password TEXT, "
                     "privelageLevel INTEGER"
                 ");");
-        if (addAdminAcct) db.exec("INSERT INTO users VALUES(NULL, 'admin', 'pass', 2);");
+        if (addAdminAcct) user.createAccount("admin", "pass", 2);
+
         
         db.exec("CREATE TABLE IF NOT EXISTS transactions ("
                     "TID INTEGER PRIMARY KEY, "
