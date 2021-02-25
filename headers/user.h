@@ -7,6 +7,7 @@ class User{
 	private:
 		int privelageLevel;
 		std::string email;
+		std::string encrypt(std::string password);
 	public:
 		User()
 			{privelageLevel = 0;};
