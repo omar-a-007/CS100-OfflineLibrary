@@ -1,5 +1,9 @@
 #include "../headers/iComponent.h"
 
+Category::~Category()
+{
+    
+}
 
 void Category::add(iComponent* cmp)
 {
