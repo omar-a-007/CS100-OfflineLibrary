@@ -28,18 +28,21 @@ void Library::initDB(std::string file) /* file = DBfile */
         // Open Database File for Read/Write access
         // Currently uses SQLite due to restrictions of Hammer server
         SQLite::Database    db(file, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE); 
-        std::cout << "Library database opened successfully\n";
+        //std::cout << "Library database opened successfully\n";
 
         db.exec("PRAGMA foreign_keys = ON;");
         //std::cout << db.execAndGet("PRAGMA foreign_keys").getInt() << std::endl;
 
         // Initialize tables if they dont exist
+        bool addAdminAcct = db.tableExists("users");
         db.exec("CREATE TABLE IF NOT EXISTS users ("
 					"UID INTEGER PRIMARY KEY, "
                     "email TEXT, "
                     "password TEXT, "
                     "privelageLevel INTEGER"
                 ");");
+        if (addAdminAcct) db.exec("INSERT INTO users VALUES(NULL, 'admin', 'pass', 2);");
+        
         db.exec("CREATE TABLE IF NOT EXISTS transactions ("
                     "TID INTEGER PRIMARY KEY, "
                     "UID INTEGER, MID INTEGER, "

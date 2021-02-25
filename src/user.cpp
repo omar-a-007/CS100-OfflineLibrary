@@ -52,7 +52,7 @@ bool User::createAccount(std::string username, std::string password, int privela
 bool User::deleteAccount(std::string password)
 {
 	password = encrypt(password);
-	if (privelageLevel = 0) return false; // Not logged in, no account to delete.
+	if (privelageLevel == 0) return false; // Not logged in, no account to delete.
     try
     {	// Open DB file in read-only mode
         SQLite::Database    db(DBfile, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE); 
@@ -60,6 +60,8 @@ bool User::deleteAccount(std::string password)
 		if (!query.executeStep()) return false;	 // provided password doesn't match stored password
 
 		db.exec("DELETE FROM users WHERE email='" + email + "'");
+		this-> email = "";
+		this-> privelageLevel = 0;
 		return true;
 	}
     catch (std::exception& e)
@@ -73,7 +75,7 @@ bool User::changePassword(std::string oldPassword, std::string newPassword)
 {
 	oldPassword = encrypt(oldPassword);
 	newPassword = encrypt(newPassword);
-	if (privelageLevel = 0) return false; // Not logged in, cant change password.
+	if (privelageLevel == 0) return false; // Not logged in, cant change password.
     try
     {	// Open DB file in read-only mode
         SQLite::Database    db(DBfile, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE); 
