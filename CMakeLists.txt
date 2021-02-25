@@ -17,6 +17,7 @@ ADD_EXECUTABLE(library
 	src/main.cpp
 	src/library.cpp
 	src/user.cpp
+	src/iComponent.cpp
 )
 
 #ADD_EXECUTABLE(test
