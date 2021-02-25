@@ -15,6 +15,8 @@ ADD_SUBDIRECTORY(SQLiteCpp)
 
 ADD_EXECUTABLE(library
 	src/main.cpp
+	src/library.cpp
+	src/user.cpp
 )
 
 #ADD_EXECUTABLE(test

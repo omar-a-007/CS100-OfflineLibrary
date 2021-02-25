@@ -7,13 +7,16 @@ class User{
 	private:
 		int privelageLevel;
 		std::string email;
-	pubic:
+	public:
+		User()
+			{privelageLevel = 0;};
 		User(std::string email, std::string password);
 		bool login(std::string email, std::string password);
 		int setPrivelageLevel();
-		int getPrivelageLevel();
-		bool createAccount(std::string email, std::string password);
-		bool deleteAccount(std::string email, std::string password);
+		int getPrivelageLevel()		{return this->privelageLevel;};
+		std::string getUsername()   {return this->email;};
+		bool createAccount(std::string email, std::string password, int privelageLevel);
+		bool deleteAccount(std::string password);
 		bool changePassword(std::string oldPassword, std::string newPassword);
 };
 

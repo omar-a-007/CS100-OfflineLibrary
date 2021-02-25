@@ -4,5 +4,11 @@ Makefile
 cmake_install.cmake
 lib/
 
+googletest/
+SQLiteCpp/
+
+.vscode/
+
+library.db3
 library
 test

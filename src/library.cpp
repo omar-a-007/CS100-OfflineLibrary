@@ -1,44 +1,72 @@
 #include "../headers/library.h"
-
-#include <iostream>
-#include <cstdio>
-#include <cstdlib>
-
-#include <SQLiteCpp/SQLiteCpp.h>
+#include "../headers/user.h"
+#include "../headers/constants.h"
 
 Library::Library()
 {
 	// Initilaize the Library
 
-	// Connect to Library DB
-	connectToLibrary();
+	// Setup/Create DB if its not setup yet
+	initDB("library.db3");
 }
 
 
-
-void Library::displayMenu()
-{
-}
-
-void Library::menuSelection(int selection)
+void Library::borrow(Media* media)
 {
 }
 
 
-// Connect to Library DB
-// Currently uses SQLite due to restrictions of Hammer server
-void Library::connectToLibrary()
+void Library::initDB(std::string file) /* file = DBfile */
 {
-	// Open Database File for Read/Write access
-		SQLite::Database    db("library.db3", SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE); 
-	db.exec("CREATE TABLE IF NOT EXIST users (
-			UID INTEGER PRIMARY KEY,
-			email TEXT,
-			password TEXT)");
+    //std::cout << "SQlite3 version " << SQLite::VERSION << " (" << SQLite::getLibVersion() << ")" << std::endl;
+    //std::cout << "SQliteC++ version " << SQLITECPP_VERSION << std::endl;
 
-}
+    try
+    {
+        // Connect to Library DB
 
+        // Open Database File for Read/Write access
+        // Currently uses SQLite due to restrictions of Hammer server
+        SQLite::Database    db(file, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE); 
+        std::cout << "Library database opened successfully\n";
 
-void Library::borrow()
-{
+        db.exec("PRAGMA foreign_keys = ON;");
+        //std::cout << db.execAndGet("PRAGMA foreign_keys").getInt() << std::endl;
+
+        // Initialize tables if they dont exist
+        db.exec("CREATE TABLE IF NOT EXISTS users ("
+					"UID INTEGER PRIMARY KEY, "
+                    "email TEXT, "
+                    "password TEXT, "
+                    "privelageLevel INTEGER"
+                ");");
+        db.exec("CREATE TABLE IF NOT EXISTS transactions ("
+                    "TID INTEGER PRIMARY KEY, "
+                    "UID INTEGER, MID INTEGER, "
+                    "DueDate INTEGER, "
+                    "FOREIGN KEY(UID) REFERENCES users(UID), "
+                    "FOREIGN KEY(MID) REFERENCES media(MID)"
+                ");");
+        db.exec("CREATE TABLE IF NOT EXISTS media ("
+                    "MID INTEGER PRIMARY KEY, CID INTEGER, "
+                    "Title TEXT, "
+                    "Author TEXT, "
+                    "Cost INTEGER, "
+                    "Quantity INTEGER, "
+                    "contentsCount INTEGER, "
+                    "ISBN TEXT, "
+                    "FOREIGN KEY(CID) REFERENCES category(CID)"
+                ");");
+		db.exec("CREATE TABLE IF NOT EXISTS category ("
+                    "CID INTEGER PRIMARY KEY, "
+                    "ParentID INTEGER, "
+                    "Title TEXT"
+                ");");
+
+    }
+    catch (std::exception& e)
+    {
+        std::cout << "SQLite exception: " << e.what() << std::endl;
+        exit(EXIT_FAILURE); // unexpected error : exit the library app
+    }
 }
