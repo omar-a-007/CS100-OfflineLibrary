@@ -7,20 +7,24 @@
 class iComponent{
     protected:        std::string title;
     public:
-        iComponent(){};
-        virtual ~iComponent();
+        iComponent(std::string title)
+            :title(title) {};
+        virtual ~iComponent() {};
         virtual void display() = 0;
 };
 
 class Category : public iComponent{
     private:
+        int CID;
         std::vector<iComponent *> children;
     public:
-        Category(std::string title);
+        Category(std::string Title)
+            :iComponent(Title) {};
         ~Category() override;
         void display() override
             {for (auto c : children) c->display();}
-        int itemCount();
+        int itemCount() const
+            {return children.size();};
         void add(iComponent *);
         void remove(iComponent *);
         iComponent* getChildren();  // <-- is this even needed with the children vector ?
@@ -28,44 +32,45 @@ class Category : public iComponent{
 
 class Media : public iComponent{
     protected:
+        int MID;
         std::string Author;
         int quantityAvailable;
+        int contentLength;  //pages, minutes, etc
         double cost;
     public:
-        Media(std::string Title, std::string Author, double Cost);
-        virtual ~Media();
+        Media(std::string Title, std::string Author, int contentLength, double cost)
+            : iComponent(Title), Author(Author), contentLength(contentLength), cost(cost) {};
+        virtual ~Media() {};
         virtual void display() = 0;
-        std::string getTitle();
-        void setTitle(std::string Title);
-        void setQuantityAvailable(int quantity);
-        int getQuantityAvailable();
-        void setCost(double cost);
+        std::string getTitle() const                {return this->title;};
+        void setTitle(const std::string& Title)     {this->title = Title;};
+        void setQuantityAvailable(int quantity)     {this->quantityAvailable = quantity;};
+        int getQuantityAvailable() const            {return this->quantityAvailable;};
+        void setCost(double cost)                   {this->cost = cost;};
 };
 
 class DVD : public Media {
-    private:
-        int numMins;
     public:
-        DVD(std::string Title, std::string Author, int numMins, double Cost = 19.99);
+        DVD(std::string Title, std::string Author, int contentLength, double Cost = 19.99)
+            : Media(Title, Author, contentLength, Cost) {};
         ~DVD();
-        void display() override;
+        void display() override {};
 };
 
 class Book : public Media {
     private:
-        int numPages;
         std::string ISBN;
     public:
-        Book(std::string Title, std::string Author, std::string ISBN, int numPages, double Cost = 9.99);
+        Book(std::string Title, std::string Author, std::string ISBN, int contentLength, double Cost = 9.99)
+            :Media(Title, Author, contentLength, Cost), ISBN(ISBN) {};
         ~Book();
-        void display() override ;
+        void display() override;
 };
 
 class AudioBook : public Media {
-    private:
-        int numMins;
     public:
-        AudioBook(std::string Title, std::string Author, int numMins, double Cost = 9.99);
+        AudioBook(std::string Title, std::string Author, int contentLength, double Cost = 9.99)
+            :Media(Title, Author, contentLength, Cost) {};
         ~AudioBook();
         void display() override;
 };
