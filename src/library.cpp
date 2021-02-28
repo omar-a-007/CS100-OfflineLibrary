@@ -53,8 +53,10 @@ void Library::initDB(std::string file) /* file = DBfile */
                     "FOREIGN KEY(MID) REFERENCES media(MID)"
                 ");");
         db.exec("CREATE TABLE IF NOT EXISTS media ("
-                    "MID INTEGER PRIMARY KEY, CID INTEGER, "
-                    "Title TEXT, "
+                    "MID INTEGER PRIMARY KEY, "
+                    "CID INTEGER, "
+                    "MediaType TEXT, "
+                    "Title TEXT UNIQUE, "
                     "Author TEXT, "
                     "Cost INTEGER, "
                     "Quantity INTEGER, "
@@ -65,7 +67,7 @@ void Library::initDB(std::string file) /* file = DBfile */
 		db.exec("CREATE TABLE IF NOT EXISTS category ("
                     "CID INTEGER PRIMARY KEY, "
                     "ParentID INTEGER, "
-                    "Title TEXT"
+                    "Title TEXT UNIQUE"
                 ");");
 
     }

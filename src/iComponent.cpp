@@ -101,7 +101,7 @@ Media* Category::findMedia(std::string title)
     return nullptr;
 }
 
-std::vector<iComponent*> Category::getChildren()
+std::vector<iComponent*>& Category::getChildren()
 {
     return children;
 }

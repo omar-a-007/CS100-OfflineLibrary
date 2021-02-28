@@ -20,12 +20,20 @@ ADD_EXECUTABLE(library
 	src/iComponent.cpp
 )
 
+ADD_EXECUTABLE(temp
+	src/temp.cpp
+	src/library.cpp
+	src/user.cpp
+	src/iComponent.cpp
+)
+
 #ADD_EXECUTABLE(test
 #	tests/test.cpp
 #)
 
 # Link library executable with SQLiteCpp
 TARGET_LINK_LIBRARIES(library SQLiteCpp)
+TARGET_LINK_LIBRARIES(temp SQLiteCpp)
 
 # Link test executable with googleTest and SQLiteCpp
 #TARGET_LINK_LIBRARIES(test gtest)

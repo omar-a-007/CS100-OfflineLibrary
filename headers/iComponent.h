@@ -85,10 +85,8 @@ class Category : public iComponent{
         void remove(iComponent* component);
 
         Media* findMedia(std::string title);
-        
 
-
-        std::vector<iComponent*> getChildren();  // <-- is this even needed with the children vector ?
+        std::vector<iComponent*>& getChildren();  // <-- is this even needed? may remove it.
 };
 
 #endif
