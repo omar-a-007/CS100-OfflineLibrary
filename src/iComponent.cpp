@@ -29,7 +29,7 @@ DVD::~DVD() {}
 void DVD::display(const std::string& prepend, std::ostream& stream)
 {
     stream << prepend << "[DVD] " << this->title << std::endl;
-        stream << prepend << "\t" << "Producer: " << this->Author << std::endl;
+        stream << prepend << "\t" << "Director: " << this->Author << std::endl;
         stream << prepend << "\t" << "Minutes: " << this->contentLength << std::endl;
         stream << prepend << "\t" << std::setw(28) << std::left << "Quantity Available: " + std::to_string(quantityAvailable);
                         stream << "Replacement Cost: " << this->cost << std::endl;
@@ -87,7 +87,6 @@ void Category::remove(iComponent* cmp)
 
 Media* Category::findMedia(std::string title)
 {
-
     for (const auto& c : children)
     {
         if (Category* cat = dynamic_cast<Category*>(c))
@@ -97,6 +96,20 @@ Media* Category::findMedia(std::string title)
         }
         else if (Media* m = dynamic_cast<Media*>(c))
             if (m->getTitle() == title) return m;
+    }
+    return nullptr;
+}
+
+Category* Category::findCategory(int CID)
+{
+    for (const auto& c : children)
+    {
+        if (Category* cat = dynamic_cast<Category*>(c))
+        {
+            if (cat->CID == CID) return cat;
+            Category* temp = cat->findCategory(CID);
+            if (temp != nullptr) return temp;
+        }
     }
     return nullptr;
 }

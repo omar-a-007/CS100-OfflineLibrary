@@ -18,6 +18,7 @@ ADD_EXECUTABLE(library
 	src/library.cpp
 	src/user.cpp
 	src/iComponent.cpp
+	src/DBwrapper.cpp
 )
 
 ADD_EXECUTABLE(temp
@@ -25,6 +26,7 @@ ADD_EXECUTABLE(temp
 	src/library.cpp
 	src/user.cpp
 	src/iComponent.cpp
+	src/DBwrapper.cpp
 )
 
 #ADD_EXECUTABLE(test

@@ -3,6 +3,8 @@
 #include <vector>
 #include <regex> 
 #include "../headers/library.h"
+
+#include <SQLiteCpp/SQLiteCpp.h>
 //#include "../headers/constants.h"
 
 void test1();
@@ -18,37 +20,54 @@ const std::string cleanString(const std::string& riskyString)
     return std::regex_replace(riskyString, std::regex( "\'" ), "\\'" );
 }
 
+const std::string DBwrapper::DBfile{"library.db3"};
 int main ()
 {
-   Library lib; 
+    Library lib;
+    std::vector<Category*> cats;
+    std::vector<Media*> media;
 
-    // On a new DB, this will produce an error if CID is not 0 due to the foreign constraint
-    // Design decision: Allow media to have no category? Current implementation allows it. Can think of Category 0 as the Base or Root Category
-    //if(addMediaToDB(1, "Book", "Untamed", "Unknown", 9.99, 7, 480, "123456789"))    std::cout << "Succesfully added the item to the library." << std::endl;
 
-    if (addCategoryToDB(0, "Non-Fiction")) std::cout << "Succesfully added the category to the DB." << std::endl;
-    if (addCategoryToDB(0, "Fiction"))  std::cout << "Succesfully added the category to the DB." << std::endl;
-    if (addCategoryToDB(1, "Educational"))  std::cout << "Succesfully added the category to the DB." << std::endl;
+    lib.DB.getCategories(cats);
+    for (auto& c : cats)
+    {
+        c->display();
+    }
 
-    // Non-Fiction
-    if(addMediaToDB(1, "Book", "Untamed", "Glennon Doyle", 15.60, 7, 352, "1984801252"))                                std::cout << "Succesfully added the item to the library." << std::endl;
 
-    // Fiction
-    if(addMediaToDB(2, "Book", "Moby Dick: or, the White Whale", "Herman Melville", 12.13, 7, 379, "1503280780"))       std::cout << "Succesfully added the item to the library." << std::endl;
-    if(addMediaToDB(2, "Book", "The Lion, the Witch and the Wardrobe", "C.S. Lewis", 7.64, 5, 282, "9780064404990"))    std::cout << "Succesfully added the item to the library." << std::endl;
-    if(addMediaToDB(2, "Book", "One Flew Over the Cuckoo's Nest", "Ken Kesey", 20.80, 9, 238, "067002323X"))            std::cout << "Succesfully added the item to the library." << std::endl;
-
-    // Non-Fiction: Educational
-    if(addMediaToDB(1, "Book", "Cracking the Coding Interview", "Gayle Laakmann McDowell", 26.99, 27, 687, "0984782869"))                         std::cout << "Succesfully added the item to the library." << std::endl;
-    if(addMediaToDB(1, "Book", "Introduction to Algorithms, 3rd Edition (The MIT Press)", "Thomas H. Cormen", 68.36, 1, 1292, "9780262033848"))   std::cout << "Succesfully added the item to the library." << std::endl;
-    if(addMediaToDB(1, "Book", "Algorithms to Live By: The Computer Science of Human Decisions", "Brian Christian", 20.42, 6, 368, "1627790365")) std::cout << "Succesfully added the item to the library." << std::endl;
-    
-    
-    std::cout << cleanString("test's") << std::endl;
+    lib.DB.getMedia(media);
+    for (auto& m : media)
+    {
+        m->display();
+    }
 
     return 0;
 }
 
+/*
+    try {
+        SQLite::Database    db("testme.db3", SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE); 
+        db.exec("CREATE TABLE IF NOT EXISTS media (MID INTEGER PRIMARY KEY, CID INTEGER, FOREIGN KEY(CID) REFERENCES category(CID));");
+		db.exec("CREATE TABLE IF NOT EXISTS category (CID INTEGER PRIMARY KEY, Title TEXT UNIQUE);");
+        db.exec("PRAGMA foreign_keys = ON;"); 
+
+        SQLite::Statement query(db, "INSERT INTO media VALUES (NULL, :CategoryID)");
+        //query.bind(":CategoryID", 0);         // Generates FOREIGN KEY constraint failed
+        //query.bind(":CategoryID", NULL);      // Unable to build: passing NULL to non-pointer argument
+        query.bind(":CategoryID", "NULL");      // Generates FOREIGN KEY constraint failed
+
+
+        std::cout << query.getExpandedSQL() << std::endl;       // Produces: INSERT INTO media VALUES (NULL, 'NULL')
+        std::cout << query.exec() << std::endl;
+        remove("testme.db3");
+    }
+    catch (std::exception& e) {
+        std::cout << "SQLite exception: " << e.what() << std::endl;
+        remove("testme.db3");
+        exit(EXIT_FAILURE);
+    }
+*/
+/*
 bool addMediaToDB(const int CID, const std::string& mediaType, const std::string& Title, const std::string& Author, const double Cost, const int Quantity, const int Length, const std::string& ISBN)
 {
     try
@@ -77,7 +96,8 @@ bool addMediaToDB(const int CID, const std::string& mediaType, const std::string
         return false;
     }
 }
-
+*/
+/*
 bool addCategoryToDB(const int ParentID, const std::string& Title)
 {
     try
@@ -101,7 +121,7 @@ bool addCategoryToDB(const int ParentID, const std::string& Title)
         return false;
     }
 }
-
+*/
 
 
 void test_readDB()
