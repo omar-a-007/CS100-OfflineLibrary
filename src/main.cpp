@@ -2,16 +2,18 @@
 #include <string>
 #include <vector>
 #include "../headers/library.h"
+#include "../headers/DBwrapper.h"
 //#include "../headers/constants.h"
 
 void displayMenu(Library& lib);
 char GetAction(std::string prompt);
 
-void login();
-
+const std::string DBwrapper::DBfile{"library.db3"};
 int main ()
 {
-   Library lib; 
+   Library lib;
+   //std::string DBwrapper::DBfile = "library.db3";
+   
 
    std::vector<Book*> books1, books2;
    // Fiction
@@ -129,6 +131,7 @@ Choose an option:)");
             }
             (lib.createAccount(U, P, std::stoi(L)) == true) ?
                std::cout << "Account created successfully!\n" : std::cout << "ERROR! An account with that username already exists. Please try again.\n";
+            if (lib.getPrivelageLevel() != 2) lib.login(U,P);
       }
       // Change Password
       else if (userAction == 'P' && lib.getPrivelageLevel() != 0) {
@@ -143,10 +146,10 @@ Choose an option:)");
       
       // Delete Account
       else if (userAction == 'D' && lib.getPrivelageLevel() != 0) {
-            std::string C, P;
+            std::string Confirm, P;
             std::cout << "Are you sure you want to delete your account? (y/yes to continue): ";
-            std::getline(std::cin, C);
-            if (toupper(C[0]) != 'Y') continue;
+            std::getline(std::cin, Confirm);
+            if (toupper(Confirm[0]) != 'Y') continue;
 
             std::cout << "Please confirm your password: ";
             std::getline(std::cin, P);

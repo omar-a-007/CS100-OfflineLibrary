@@ -7,18 +7,22 @@ class User{
 	private:
 		int privelageLevel;
 		std::string email;
-		std::string encrypt(std::string password);
 	public:
 		User()
-			{privelageLevel = 0;};
-		User(std::string email, std::string password);
-		bool login(std::string email, std::string password);
+			: privelageLevel(0) {};
+		User(const std::string& email, const std::string& password);
+
 		int setPrivelageLevel();
 		int getPrivelageLevel()		{return this->privelageLevel;};
 		std::string getUsername()   {return this->email;};
-		bool createAccount(std::string email, std::string password, int privelageLevel);
-		bool deleteAccount(std::string password);
-		bool changePassword(std::string oldPassword, std::string newPassword);
+
+		void logout()  				{email = ""; privelageLevel = 0;}
+		bool login(const std::string& email, const std::string& password);
+		bool deleteAccount(const std::string& password);
+		bool changePassword(const std::string& current_password, const std::string& new_password);
+
+		static const std::string encrypt_RSA(const std::string& password);
+		static bool createAccount(const std::string& email, const std::string& password, int privelageLevel);
 };
 
 #endif

@@ -11,4 +11,5 @@ SQLiteCpp/
 
 library.db3
 library
+temp
 test
