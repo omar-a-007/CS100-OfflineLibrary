@@ -7,7 +7,6 @@
 #include "user.h"
 #include "transaction.h"
 #include "libraryManagement.h"
-#include "constants.h"
 #include "DBwrapper.h"
 
 class Library

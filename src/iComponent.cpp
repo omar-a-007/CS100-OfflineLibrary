@@ -4,7 +4,7 @@
 
 #include "../headers/iComponent.h"
 
-Book::~Book()  {}
+Book::~Book() { }
 void Book::display(const std::string& prepend, std::ostream& stream)
 {
     stream << prepend << "[Book] " << this->title << std::endl;
@@ -15,7 +15,7 @@ void Book::display(const std::string& prepend, std::ostream& stream)
                         stream << "Replacement Cost: " << this->cost << std::endl;
 }
 
-AudioBook::~AudioBook()  {}
+AudioBook::~AudioBook() { }
 void AudioBook::display(const std::string& prepend, std::ostream& stream)
 {
     stream << prepend << "[AudioBook] " << this->title << std::endl;
@@ -25,7 +25,7 @@ void AudioBook::display(const std::string& prepend, std::ostream& stream)
                         stream << "Replacement Cost: " << this->cost << std::endl;
 }
 
-DVD::~DVD() {}
+DVD::~DVD() { }
 void DVD::display(const std::string& prepend, std::ostream& stream)
 {
     stream << prepend << "[DVD] " << this->title << std::endl;
@@ -41,7 +41,7 @@ Category::~Category()
 {
     for (auto& c : children)
     {
-        std::cout << "Destructor called for: " << c->getTitle() << std::endl;
+        //std::cout << "Destructor called for: " << c->getTitle() << std::endl;
         delete c;
     } 
 }
@@ -59,7 +59,8 @@ const int Category::itemCount() const
     return i;
 }
 
-/* Category.add
+/* Category->add
+    Returns a pointer to the child that was added, allowing for chain adding of categories.
     Currently not using a hashmap because:
     Using an ordered_map doesnt allow duplicate keys. 
         Using title as the key means Category and Media can't have the same title
@@ -67,9 +68,10 @@ const int Category::itemCount() const
         Possible Solution 2: Boost::Multi_Index_Key
     {children2.insert(std::make_pair(component->getTitle(), component));}
 */
-void Category::add(iComponent* component)
+iComponent* Category::add(iComponent* component)
 {
     children.push_back(component);
+    return component;
 }
 
 void Category::remove(iComponent* cmp)
@@ -85,7 +87,7 @@ void Category::remove(iComponent* cmp)
             cat->remove(cmp);    
 }
 
-Media* Category::findMedia(std::string title)
+Media* Category::findMedia(const std::string& title)
 {
     for (const auto& c : children)
     {
@@ -108,6 +110,20 @@ Category* Category::findCategory(int CID)
         {
             if (cat->CID == CID) return cat;
             Category* temp = cat->findCategory(CID);
+            if (temp != nullptr) return temp;
+        }
+    }
+    return nullptr;
+}
+
+Category* Category::findCategory(const std::string& title)
+{
+    for (const auto& c : children)
+    {
+        if (Category* cat = dynamic_cast<Category*>(c))
+        {
+            if (cat->title == title) return cat;
+            Category* temp = cat->findCategory(title);
             if (temp != nullptr) return temp;
         }
     }

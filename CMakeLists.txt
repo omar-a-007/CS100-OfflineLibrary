@@ -29,15 +29,19 @@ ADD_EXECUTABLE(temp
 	src/DBwrapper.cpp
 )
 
-#ADD_EXECUTABLE(test
-#	tests/test.cpp
-#)
+ADD_EXECUTABLE(test
+	tests/unit_test.cpp
+	src/library.cpp
+	src/user.cpp
+	src/iComponent.cpp
+	src/DBwrapper.cpp
+)
 
-# Link library executable with SQLiteCpp
+# Link library and temp executable with SQLiteCpp
 TARGET_LINK_LIBRARIES(library SQLiteCpp)
 TARGET_LINK_LIBRARIES(temp SQLiteCpp)
 
-# Link test executable with googleTest and SQLiteCpp
-#TARGET_LINK_LIBRARIES(test gtest)
-#TARGET_LINK_LIBRARIES(test SQLiteCpp)
-#TARGET_COMPILE_DEFINITIONS(test PRIVATE gtest_disable_pthreads=ON)
+ # Link test executable with googleTest and SQLiteCpp
+TARGET_LINK_LIBRARIES(test gtest)
+TARGET_LINK_LIBRARIES(test SQLiteCpp)
+TARGET_COMPILE_DEFINITIONS(test PRIVATE gtest_disable_pthreads=ON)

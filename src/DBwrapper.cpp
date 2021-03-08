@@ -232,7 +232,7 @@ void DBwrapper::initDB()
         // Currently uses SQLite due to restrictions of Hammer server
         SQLite::Database    db(DBfile, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE); 
         //std::cout << "Library database opened successfully\n";
-        //std::cout << db.execAndGet("PRAGMA foreign_keys").getInt() << std::endl;
+        //std::cout << db.execAndGet("PRAGMA foreign_keys").getInt() << std::endl;  // States whether foreign_key constraints are enabled or not. Returns 0(false)/1(true).
 
         bool newDB = !(db.tableExists("users"));
 
