@@ -131,16 +131,19 @@ void DBwrapper::getMedia(std::list<Media*>& v)
  * 
  * **********************************************************************************************************/
 
-int DBwrapper::login(const std::string& username, const std::string& password)
+bool DBwrapper::login(User& userClass, const std::string& username, const std::string& password)
 {
     try {	// Open DB file in read-only mode
         SQLite::Database    db(DBfile); // SQLite::OPEN_READONLY
-	    SQLite::Statement query(db, "SELECT privelageLevel FROM users WHERE email= :user and password= :pass;");
+	    SQLite::Statement query(db, "SELECT UID, privelageLevel FROM users WHERE email= :user and password= :pass;");
         query.bind(":user", username);
         query.bind(":pass", password);
-		if (!query.executeStep()) return 0;	 // No records returned, user pass combo is invalid
+		if (!query.executeStep()) return false;	 // No records returned, user pass combo is invalid
 		
-		return query.getColumn(0);
+        userClass.setUsername(username);
+		userClass.setUID(query.getColumn(0));
+        userClass.setPrivelageLevel(query.getColumn(1));
+        return true;
 	}
     catch (std::exception& e) {
         std::cout << "ERROR! There was an issue logging in." << std::endl;

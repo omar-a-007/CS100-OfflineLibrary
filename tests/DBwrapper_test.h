@@ -127,8 +127,9 @@ TEST(DBwrapperTest, db_login_success) {
      * This is for testing puposes ONLY!! DBwrapper::login should NEVER be accessed directly.
      * Instead, you should call User.login() as it encrypts the checked password properly
      */
+    User u;
     EXPECT_TRUE(DBwrapper::createAccount("Z", "Z", 2));
-    EXPECT_EQ(DBwrapper::login("Z", "Z"), 2);
+    EXPECT_TRUE(DBwrapper::login(u, "Z", "Z"));
 }
 
 
@@ -137,7 +138,8 @@ TEST(DBwrapperTest, db_login_FAIL_BadUser) {
      * This is for testing puposes ONLY!! DBwrapper::login should NEVER be accessed directly.
      * Instead, you should call User.login() as it encrypts the checked password properly
      */
-    EXPECT_EQ(DBwrapper::login("X", "Z"), 0);
+    User u;
+    EXPECT_EQ(DBwrapper::login(u, "X", "Z"), 0);
 }
 
 TEST(DBwrapperTest, db_login_FAIL_BadPass) {
@@ -145,7 +147,8 @@ TEST(DBwrapperTest, db_login_FAIL_BadPass) {
      * This is for testing puposes ONLY!! DBwrapper::login should NEVER be accessed directly.
      * Instead, you should call User.login() as it encrypts the checked password properly
      */
-    EXPECT_EQ(DBwrapper::login("Z", "X"), 0);
+    User u;
+    EXPECT_EQ(DBwrapper::login(u, "Z", "X"), 0);
 }
 
 TEST(DBwrapperTest, db_getMedia) {
@@ -172,7 +175,7 @@ TEST(DBwrapperTest, db_getCategories) {
 
 TEST(DBwrapperTest, cleanup)
 {
-    remove("test.db3");
+    EXPECT_EQ(remove("test.db3"), 0);
 }
 
 #endif

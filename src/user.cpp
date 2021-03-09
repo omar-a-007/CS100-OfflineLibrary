@@ -10,12 +10,7 @@ User::User(const std::string& username, const std::string& password)
 
 bool User::login(const std::string& username, const std::string& password)
 {
-	privelageLevel = DBwrapper::login(username, encrypt_RSA(password));
-	if (privelageLevel > 0) {
-		email = username;
-		return true;
-	}
-	return false;
+	return DBwrapper::login(*this, username, encrypt_RSA(password));
 }
 
 bool User::createAccount(const std::string& username, const std::string& password, int privelageLevel)
