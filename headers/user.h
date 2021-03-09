@@ -6,15 +6,21 @@
 class User{
 	private:
 		int privelageLevel;
+		int UID;
 		std::string email;
 	public:
 		User()
 			: privelageLevel(0) {};
 		User(const std::string& email, const std::string& password);
 
-		int setPrivelageLevel();
-		int getPrivelageLevel()		{return this->privelageLevel;};
-		std::string getUsername()   {return this->email;};
+		const int getUID()							{return this->UID;} 
+		void setUID(int UID)						{this->UID = UID;} 
+
+		const int getPrivelageLevel()				{return this->privelageLevel;}
+		void setPrivelageLevel(int privelageLevel)	{this->privelageLevel = privelageLevel;}
+
+		const std::string getUsername()				{return this->email;}
+		void setUsername(const std::string& email)	{this->email = email;}
 
 		void logout()  				{email = ""; privelageLevel = 0;}
 		bool login(const std::string& email, const std::string& password);

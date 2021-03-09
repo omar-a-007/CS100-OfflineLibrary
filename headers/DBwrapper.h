@@ -7,6 +7,7 @@
 #include <SQLiteCpp/SQLiteCpp.h>
 
 #include "iComponent.h"
+#include "user.h"
 
 class DBwrapper {
     private:
@@ -20,7 +21,7 @@ class DBwrapper {
     public:
         DBwrapper();
 
-        static int login(const std::string& username, const std::string& password);
+        static bool login(User& userClass, const std::string& username, const std::string& password);
         static bool createAccount(const std::string& username, const std::string& password, int privelageLevel);
         static bool deleteAccount(const std::string& username, const std::string& password);
         static bool changePassword(const std::string& username, const std::string& cur_pass, const std::string& new_pass);
