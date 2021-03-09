@@ -1,7 +1,7 @@
 #ifndef __LIBRARY_H__
 #define __LIBRARY_H__
 
-#include <vector>
+#include <list>
 #include <string>
 
 #include "user.h"
@@ -11,9 +11,12 @@
 
 class Library
 {
+	private:
+		Category* recreateCompositeFromDB();	// Returns a "Root" category node with the composite structure re-created based on whats in the DB
+
 	protected:
 		User user;
-		std::vector<Transaction *> borrowLog;
+		std::list<Transaction *> borrowLog;
 		LibraryManagement manager;
 		Exporter* exporter;
 

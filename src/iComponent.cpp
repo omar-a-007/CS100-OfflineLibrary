@@ -68,10 +68,15 @@ const int Category::itemCount() const
         Possible Solution 2: Boost::Multi_Index_Key
     {children2.insert(std::make_pair(component->getTitle(), component));}
 */
-iComponent* Category::add(iComponent* component)
+iComponent* Category::add(Category* category)
 {
-    children.push_back(component);
-    return component;
+    children.push_back(category);
+    return category;
+}
+iComponent* Category::add(Media* media)
+{
+    children.push_front(media);
+    return media;
 }
 
 void Category::remove(iComponent* cmp)
@@ -130,7 +135,7 @@ Category* Category::findCategory(const std::string& title)
     return nullptr;
 }
 
-std::vector<iComponent*>& Category::getChildren()
+std::list<iComponent*>& Category::getChildren()
 {
     return children;
 }
@@ -143,7 +148,7 @@ void Category::display(const std::string& prepend, std::ostream& stream)
     //for (const auto& c : children2) c.second->display(prepend + "\t", stream);
 }
 
-void Category::display(bool isRoot, std::ostream& stream = std::cout)
+void Category::display(bool isRoot, std::ostream& stream)
 {
     if (isRoot)
     {

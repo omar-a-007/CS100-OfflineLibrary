@@ -2,7 +2,7 @@
 #define __iCOMPONENT_H__
 
 #include <string>
-#include <vector>
+#include <list>
 #include <iostream>
 #include <unordered_map>
 
@@ -89,7 +89,7 @@ class Category : public iComponent{
     private:
         int CID;
         int PID;
-        std::vector<iComponent *> children;
+        std::list<iComponent *> children;
         //std::unordered_map<std::string, iComponent*> children2;
     public:
         Category(const std::string& title, int CID = 0, int PID = 0)
@@ -105,14 +105,15 @@ class Category : public iComponent{
         void setPID(int PID)                        {this->PID = PID;}
 
         const int itemCount() const;
-        iComponent* add(iComponent* component);
+        iComponent* add(Category* component);
+        iComponent* add(Media* component);
         void remove(iComponent* component);
 
         Media* findMedia(const std::string& title);
         Category* findCategory(int CID);
         Category* findCategory(const std::string& title);
 
-        std::vector<iComponent*>& getChildren();  // <-- is this even needed? may remove it.
+        std::list<iComponent*>& getChildren();  // <-- is this even needed? may remove it.
 };
 
 #endif

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <vector>
+#include <list>
 #include <regex> 
 #include "../headers/library.h"
 
@@ -24,23 +24,34 @@ int main ()
 {
     Library lib;
 
-    std::vector<Category*> cats;
-    std::vector<Media*> media;
+    std::list<Category*> DBcategories;
+    std::list<Media*> DBmedia;
 
-    lib.DB.getCategories(cats);
-    Category* root = new Category("Library");    // Root
+    lib.DB.getCategories(DBcategories);
+    lib.DB.getMedia(DBmedia);
+
+    Category* root = new Category("Root");    // Root Composite Node
     
-    for (auto c : cats)
+    for (auto c : DBcategories)
     {   
         int PID = c->getPID();
         if (PID != 0)   { root->findCategory(PID)->add(c); }
         else            { root->add(c); }
     }
+    for (auto m : DBmedia)
+    {   
+        int CID = m->getCID();
+        if (CID != 0)   { root->findCategory(CID)->add(m); }
+        else            { root->add(m); }
+    }
+
     
-    root->display();
+    root->display(true);
+
+    delete root;
 
 
-    // lib.DB.getMedia(media);
+    // 
     // for (auto& m : media)
     // {
     //     m->display();
