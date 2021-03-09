@@ -7,10 +7,12 @@
 
 #include "iComponent_test.h"
 
-const std::string DBwrapper::DBfile{"library.db3"};
+const std::string DBwrapper::DBfile{"test.db3"};
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
+
+  remove("test.db3");
 }
 

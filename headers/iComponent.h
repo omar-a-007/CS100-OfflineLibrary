@@ -96,6 +96,7 @@ class Category : public iComponent{
             : iComponent(title), CID(CID), PID(PID) { }
         ~Category() override;
         void display(const std::string& prepend = "", std::ostream& stream = std::cout) override;
+        void display(bool isRoot, std::ostream& stream = std::cout);
 
         const int getCID() const                    {return this->CID;}
         void setCID(int CID)                        {this->CID = CID;}

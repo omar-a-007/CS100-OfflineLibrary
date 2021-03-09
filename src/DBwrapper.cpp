@@ -9,6 +9,8 @@
 DBwrapper::DBwrapper()
 {
     DBversion = "0.94";
+    std::cout << checkDBversion() << std::endl << std::endl;
+    
     if (checkDBversion() != DBversion) remove(DBfile.c_str());
     initDB();
 }
