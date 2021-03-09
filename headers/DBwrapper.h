@@ -2,7 +2,7 @@
 #define __DBwrapper_H__
 
 #include <string>
-#include <vector>
+#include <list>
 
 #include <SQLiteCpp/SQLiteCpp.h>
 
@@ -10,8 +10,8 @@
 
 class DBwrapper {
     private:
-        //static std::string DBfile;
         const static std::string DBfile;
+        
         std::string DBversion;
         const std::string checkDBversion() const;
         void setDBversion();
@@ -29,8 +29,8 @@ class DBwrapper {
         int addCategory(const int ParentID, const std::string& Title);
         int addMedia(const int CID, const std::string& mediaType, const std::string& Title, const std::string& Author, const double Cost, const int Quantity, const int Length, const std::string& ISBN);
 
-        void getCategories(std::vector<Category*>& v);
-        void getMedia(std::vector<Media*>& v);
+        void getCategories(std::list<Category*>& v);
+        void getMedia(std::list<Media*>& v);
 };
 
 #endif

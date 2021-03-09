@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 #include <cstdlib>
-#include <vector> 
+#include <list> 
 
 #include "../headers/DBwrapper.h"
 #include "../headers/user.h"
@@ -75,7 +75,7 @@ int DBwrapper::addMedia(const int CID, const std::string& mediaType, const std::
     }
 }
 
-void DBwrapper::getCategories(std::vector<Category*>& v)
+void DBwrapper::getCategories(std::list<Category*>& v)
 {
     try {	// Open DB file in read-only mode
         SQLite::Database    db(DBfile); // SQLite::OPEN_READONLY
@@ -92,7 +92,7 @@ void DBwrapper::getCategories(std::vector<Category*>& v)
 }
 
 
-void DBwrapper::getMedia(std::vector<Media*>& v)
+void DBwrapper::getMedia(std::list<Media*>& v)
 {
     try {	// Open DB file in read-only mode
         SQLite::Database    db(DBfile); // SQLite::OPEN_READONLY
