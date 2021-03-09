@@ -30,7 +30,8 @@ class Library
 		bool createAccount(const std::string& username, const std::string& password, int privelageLevel = 1)	{return User::createAccount(username, password, privelageLevel);}
 		bool deleteAccount(const std::string& password)															{return user.deleteAccount(password);}
 		bool changePassword(const std::string& current_password, const std::string& new_password)				{return user.changePassword(current_password, new_password);}
-
+		bool changePrivelageLevel(const std::string& username, int priv)				{return user.changePrivelageLevel(username, priv);}	
+		
 		std::string getUsername()	{return user.getUsername();};
 		int getPrivelageLevel()		{return user.getPrivelageLevel();};
 		
