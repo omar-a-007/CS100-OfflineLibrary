@@ -23,22 +23,30 @@ const std::string DBwrapper::DBfile{"library.db3"};
 int main ()
 {
     Library lib;
+
     std::vector<Category*> cats;
     std::vector<Media*> media;
 
-
     lib.DB.getCategories(cats);
-    for (auto& c : cats)
-    {
-        c->display();
+    Category* root = new Category("Library");    // Root
+    
+    for (auto c : cats)
+    {   
+        int PID = c->getPID();
+        if (PID != 0)   { root->findCategory(PID)->add(c); }
+        else            { root->add(c); }
     }
+    
+    root->display();
 
 
-    lib.DB.getMedia(media);
-    for (auto& m : media)
-    {
-        m->display();
-    }
+    // lib.DB.getMedia(media);
+    // for (auto& m : media)
+    // {
+    //     m->display();
+    // }
+
+//    test1();
 
     return 0;
 }
@@ -158,7 +166,7 @@ void test1()
     //for (auto& b : books2) b->display("\t");
 
 
-
+//    std::vector<iComponent*>  root;
     Category* cat1 = new Category("Ficton");        for (auto& b : books1) cat1->add(b);
     Category* cat2 = new Category("Non-Ficton");    for (auto& b : books2) cat2->add(b);
     Category* cat2b = new Category("Educational");  for (auto& b : books2b) cat2b->add(b);
@@ -174,6 +182,7 @@ void test1()
     Media* searchResult = cat2->findMedia("Python Crash Course, 2nd Edition");
     std::cout << (searchResult == nullptr ? "nullptr" : searchResult->getTitle()) << std::endl;
     
+    std::cout << "Removing " << searchResult->getTitle() << std::endl;
     cat2->remove(searchResult);
     cat2->display();
 
@@ -193,9 +202,7 @@ void test2()
     Book* bookie = new Book("Algorithms to Live By: The Computer Science of Human Decisions", "Brian Christian", "1627790365", 368, 0, 0, 2);
     Book* bookie2 =new Book("Untamed", "Glennon Doyle", "1984801252", 352, 15.60);
 
-    catA->add(catB);
-    catB->add(catC);
-    catC->add(catD);
+    catA->add(catB)->add(catC)->add(catD);
     catD->add(catE1);
     catD->add(catE2);
     catD->add(catE3);

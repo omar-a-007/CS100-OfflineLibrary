@@ -34,6 +34,7 @@ bool User::deleteAccount(const std::string& password)
 	return result;
 }
 
+
 bool User::changePassword(const std::string& current_password, const std::string& new_password)
 {
 	if (privelageLevel == 0) return false; // Not logged in, cant change password.

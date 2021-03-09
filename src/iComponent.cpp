@@ -142,3 +142,11 @@ void Category::display(const std::string& prepend, std::ostream& stream)
     for (const auto& c : children) c->display(prepend + "\t", stream);
     //for (const auto& c : children2) c.second->display(prepend + "\t", stream);
 }
+
+void Category::display(bool isRoot, std::ostream& stream)
+{
+    if (isRoot)
+    {
+        for (const auto& c : children) c->display("", stream);
+    }
+}
