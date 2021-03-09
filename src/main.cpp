@@ -148,11 +148,24 @@ Choose an option:)");
       else if (userAction == 'M' && lib.getPrivelageLevel() == 2) {
 	    std::string U, P;
 	    int priv;
+            bool isCorrect = false;
 	    std::cout << "Please enter the name of the user you wish to modify: ";
 	    std::getline(std::cin, U);
+	    while(!isCorrect){
 	    std::cout << "Please enter the new privelage level: ";
 	    std::getline(std::cin, P);
-	    priv = stoi(P);
+	    try{
+		priv = stoi(P);
+		isCorrect = true;
+	    } catch(std::exception &err) {
+	        std::cout << "Must enter either 0, 1, or 2.\n";
+	    }
+	    if(priv < 0 || priv > 2) {
+		std::cout << "Must enter either 0, 1, or 2.\n";
+		isCorrect = false;
+	    }
+
+	} 
 	    (lib.changePrivelageLevel(U, priv) == true) ?
 		std::cout << "Privelage Level has been successfully changed.\n" : std::cout << "ERROR! Incorrect username provided. Pleasse try again.\n";
 
