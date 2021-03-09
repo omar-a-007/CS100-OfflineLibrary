@@ -20,6 +20,7 @@ class User{
 		bool login(const std::string& email, const std::string& password);
 		bool deleteAccount(const std::string& password);
 		bool changePassword(const std::string& current_password, const std::string& new_password);
+		bool changePrivelageLevel(const std::string& username, int priv);
 
 		static const std::string encrypt_RSA(const std::string& password);
 		static bool createAccount(const std::string& email, const std::string& password, int privelageLevel);

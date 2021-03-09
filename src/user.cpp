@@ -42,6 +42,15 @@ bool User::changePassword(const std::string& current_password, const std::string
 	return DBwrapper::changePassword(email, encrypt_RSA(current_password), encrypt_RSA(new_password));
 }
 
+bool User::changePrivelageLevel(const std::string& username, int priv)
+{
+        if (privelageLevel == 0) return false; // Not logged in, cant change password.
+
+        return DBwrapper::changePrivelageLevel(username, priv);
+}
+
+
+
 const std::string User::encrypt_RSA(const std::string& password)
 {
 	int p = 7;

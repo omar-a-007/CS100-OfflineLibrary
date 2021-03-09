@@ -96,7 +96,7 @@ Library Admin Menu
   P - Change [P]assword
   C - [C]reate Account
   D - [D]elete Account
-  
+  M - [M]odify User's Privelage Level 
   Q - [Q]uit
 
 Choose an option:)");
@@ -144,6 +144,19 @@ Choose an option:)");
                std::cout << "Password has been successfully changed.\n" : std::cout << "ERROR! Incorrect password provided. Please try again.\n";
       }
       
+      // Change Privelage Level
+      else if (userAction == 'M' && lib.getPrivelageLevel() == 2) {
+	    std::string U, P;
+	    int priv;
+	    std::cout << "Please enter the name of the user you wish to modify: ";
+	    std::getline(std::cin, U);
+	    std::cout << "Please enter the new privelage level: ";
+	    std::getline(std::cin, P);
+	    priv = stoi(P);
+	    (lib.changePrivelageLevel(U, priv) == true) ?
+		std::cout << "Privelage Level has been successfully changed.\n" : std::cout << "ERROR! Incorrect username provided. Pleasse try again.\n";
+
+      }
       // Delete Account
       else if (userAction == 'D' && lib.getPrivelageLevel() != 0) {
             std::string Confirm, P;
