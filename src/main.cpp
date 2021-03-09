@@ -12,36 +12,8 @@ const std::string DBwrapper::DBfile{"library.db3"};
 int main ()
 {
    Library lib;
-   //std::string DBwrapper::DBfile = "library.db3";
-   
 
-   std::vector<Book*> books1, books2;
-   // Fiction
-   books1.push_back(new Book("Pride and Prejudice", "Jane Austen", "9780141439518", 480, 9.99));
-   books1.push_back(new Book("To Kill a Mockingbird", "Harper Lee", "0060935464", 336, 9.99));
-   books1.push_back(new Book("The Great Gatsby", "F. Scott Fitzgerald", "9780743273565", 180, 9.99));
-   books1.push_back(new Book("One Hundred Years of Solitude", "Gabriel Garcia Marquez", "0060883286", 417, 13.99));
-   books1.push_back(new Book("Brave New World", "Aldous Huxley", "9780451524935", 328, 7.99)); 
-   books1.push_back(new Book("Moby Dick: or, the White Whale", "Herman Melville", "1503280780", 379, 12.13)); 
-   books1.push_back(new Book("The Lion, the Witch and the Wardrobe", "C.S. Lewis", "9780064404990", 282, 7.64));
-   books1.push_back(new Book("One Flew Over the Cuckoo's Nest", "Ken Kesey", "067002323X", 238, 20.80));
-
-   // Non-Fiction
-   books2.push_back(new Book("Untamed", "Glennon Doyle", "1984801252", 352, 15.60));
-   books2.push_back(new Book("Midnight in Chernobyl: The Untold Story of the World's Greatest Nuclear Disaster", "Adam Higginbotham", "1501134639", 560, 12.79));
-   books2.push_back(new Book("A Great and Terrible King: Edward I and the Forging of Britain", "Marc Morris", "1681771330", 480, 17.95));
-   books2.push_back(new Book("The Accidental President: Harry S. Truman and the Four Months That Changed the World", "A. J. Baime", "1328505685", 464, 15.60));
-   books2.push_back(new Book("The Lost City of the Monkey God: A True Story", "Douglas Preston", "1455540005", 326, 19.56));
-
-
-   Category* cat1 = new Category("Ficton");
-   for (auto& b : books1) cat1->add(b);
-
-   Category* cat2 = new Category("Non-Ficton");
-   for (auto& b : books2) cat2->add(b);
-
-
-    displayMenu(lib);
+   displayMenu(lib);
 }
 
 void displayMenu(Library& lib)
@@ -158,8 +130,18 @@ Choose an option:)");
                std::cout << "Account deleted. We're sorry to see you go.\n" : 
                std::cout << "ERROR! Unable to delete account. Incorrect password provided. Please try again.\n";
       }
-      //userAction = GetAction(PROMPT[lib.getPrivelageLevel()]);
-      //std::cout << userAction << std::endl;
+
+      // [V]iew All Items
+      else if (userAction == 'V' && lib.getPrivelageLevel() != 0) {
+            lib.displayMedia();
+      }
+
+      // [S]how All Categories
+      else if (userAction == 'S' && lib.getPrivelageLevel() != 0) {
+            std::cout << "\nList of Categories\n";
+            std::cout << "------------------\n";
+            lib.displayCategories();
+      }
    } 
 }
 

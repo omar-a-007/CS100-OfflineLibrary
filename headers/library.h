@@ -18,7 +18,6 @@ class Library
 		User user;
 		std::list<Transaction *> borrowLog;
 		LibraryManagement manager;
-		Exporter* exporter;
 
 	public:
 		DBwrapper DB;
@@ -34,16 +33,16 @@ class Library
 		bool deleteAccount(const std::string& password)															{return user.deleteAccount(password);}
 		bool changePassword(const std::string& current_password, const std::string& new_password)				{return user.changePassword(current_password, new_password);}
 
-		std::string getUsername()	{return user.getUsername();};
-		int getPrivelageLevel()		{return user.getPrivelageLevel();};
+		std::string getUsername()		{return user.getUsername();}
+		int getPrivelageLevel()			{return user.getPrivelageLevel();}
 		
 		// Transaction Related Functions (borrowing, late payments, etc)
 		void makePayment(int);
 		void borrow(Media*);
 
 		// Library Related Functions
-		void displayMedia();
-		void displayCategories();
+		void displayMedia()				{manager.display();}
+		void displayCategories()		{manager.listCategories();}
 
 		void addCategory(Category* cat, Category* parent = nullptr);
 		void removeCategory(Category* cat);
@@ -52,7 +51,7 @@ class Library
 		void findMedia(Media*);
 
 		// Export
-		void exportData(std::string filename, Exporter*);
+		void exportData(const std::string& filename, Exporter*);
 };
 
 #endif
