@@ -6,13 +6,21 @@
 #include "../headers/library.h"
 
 #include "iComponent_test.h"
+#include "user_test.h"
+#include "DBwrapper_test.h"
 
 const std::string DBwrapper::DBfile{"test.db3"};
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+  int result = RUN_ALL_TESTS();
+
+  // std::cout << "Ready to quit?\n";
+  // std::string answer;
+  // std::cin >> answer;                // Delay added so test.db3 can be inspected if needed.
 
   remove("test.db3");
+
+  return result;
 }
 

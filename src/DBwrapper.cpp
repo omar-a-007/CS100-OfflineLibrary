@@ -39,7 +39,7 @@ int DBwrapper::addCategory(const int ParentID, const std::string& Title)
     catch (std::exception& e) {
         std::cout << "ERROR! Unable to add category to the DB. Please make sure the category doesn't already exist." << std::endl;
         std::cout << "\t Error Details... SQLite exception: " << e.what() << std::endl;
-        return false;
+        return -1;
     }
 }
 
@@ -69,7 +69,7 @@ int DBwrapper::addMedia(const int CID, const std::string& mediaType, const std::
     catch (std::exception& e) {
         std::cout << "ERROR! Unable to add item to the DB. Please make sure the item doesn't already exist and the selected category is accurate." << std::endl;
         std::cout << "\t Error Details... SQLite exception: " << e.what() << std::endl;
-        return false;
+        return -1;
     }
 }
 
