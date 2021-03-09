@@ -18,7 +18,6 @@ class Library
 		User user;
 		std::list<Transaction *> borrowLog;
 		LibraryManagement manager;
-		Exporter* exporter;
 
 	public:
 		DBwrapper DB;
@@ -43,8 +42,8 @@ class Library
 		void borrow(Media*);
 
 		// Library Related Functions
-		void displayMedia();
-		void displayCategories();
+		void displayMedia()				{manager.display();}
+		void displayCategories()		{manager.listCategories();}
 
 		void addCategory(Category* cat, Category* parent = nullptr);
 		void removeCategory(Category* cat);
@@ -53,7 +52,7 @@ class Library
 		void findMedia(Media*);
 
 		// Export
-		void exportData(std::string filename, Exporter*);
+		void exportData(const std::string& filename, Exporter*);
 };
 
 #endif

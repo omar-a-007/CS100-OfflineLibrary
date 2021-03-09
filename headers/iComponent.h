@@ -4,7 +4,6 @@
 #include <string>
 #include <list>
 #include <iostream>
-#include <unordered_map>
 
 class iComponent{
     protected:        std::string title;
@@ -96,7 +95,7 @@ class Category : public iComponent{
             : iComponent(title), CID(CID), PID(PID) { }
         ~Category() override;
         void display(const std::string& prepend = "", std::ostream& stream = std::cout) override;
-        void display(bool isRoot, std::ostream& stream = std::cout);
+        void display(bool isRoot, const std::string& prepend, std::ostream& stream = std::cout);
 
         const int getCID() const                    {return this->CID;}
         void setCID(int CID)                        {this->CID = CID;}
@@ -105,8 +104,8 @@ class Category : public iComponent{
         void setPID(int PID)                        {this->PID = PID;}
 
         const int itemCount() const;
-        iComponent* add(Category* component);
-        iComponent* add(Media* component);
+        void add(Category* component);
+        void add(Media* component);
         void remove(iComponent* component);
 
         Media* findMedia(const std::string& title);

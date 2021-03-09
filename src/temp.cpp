@@ -46,7 +46,7 @@ int main ()
     }
 
     
-    root->display(true);
+    root->display(true, "");
 
     delete root;
 
@@ -213,7 +213,7 @@ void test2()
     Book* bookie = new Book("Algorithms to Live By: The Computer Science of Human Decisions", "Brian Christian", "1627790365", 368, 0, 0, 2);
     Book* bookie2 =new Book("Untamed", "Glennon Doyle", "1984801252", 352, 15.60);
 
-    catA->add(catB)->add(catC)->add(catD);
+    catA->add(catB); catB->add(catC); catC->add(catD);
     catD->add(catE1);
     catD->add(catE2);
     catD->add(catE3);

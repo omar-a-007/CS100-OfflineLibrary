@@ -35,8 +35,6 @@ void DVD::display(const std::string& prepend, std::ostream& stream)
                         stream << "Replacement Cost: " << this->cost << std::endl;
 }
 
-
-
 Category::~Category()
 {
     for (auto& c : children)
@@ -68,15 +66,13 @@ const int Category::itemCount() const
         Possible Solution 2: Boost::Multi_Index_Key
     {children2.insert(std::make_pair(component->getTitle(), component));}
 */
-iComponent* Category::add(Category* category)
+void Category::add(Category* category)
 {
     children.push_back(category);
-    return category;
 }
-iComponent* Category::add(Media* media)
+void Category::add(Media* media)
 {
     children.push_front(media);
-    return media;
 }
 
 void Category::remove(iComponent* cmp)
@@ -148,10 +144,10 @@ void Category::display(const std::string& prepend, std::ostream& stream)
     //for (const auto& c : children2) c.second->display(prepend + "\t", stream);
 }
 
-void Category::display(bool isRoot, std::ostream& stream)
+void Category::display(bool isRoot, const std::string& prepend, std::ostream& stream)
 {
     if (isRoot)
     {
-        for (const auto& c : children) c->display("", stream);
+        for (const auto& c : children) c->display(prepend, stream);
     }
 }

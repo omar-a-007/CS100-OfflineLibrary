@@ -70,7 +70,7 @@ TEST(iComponentTest, emptyComposite) {
     EXPECT_EQ(test->getChildren().size(), 0);
 
     stringstream testDisplay;
-    test->display("", testDisplay);
+    test->display(std::string(""), testDisplay);
     EXPECT_EQ(testDisplay.str(), "\nCategory: Root Category\n------------------------------------------------\n");
 
     delete test;
@@ -136,16 +136,17 @@ TEST(iComponentTest, nestedCompsosite_recursiveFunctions) {
     Category* c2 = new Category("Sub Sub Category");
     Category* c1 = new Category("Sub Category");
     Category* test = new Category("Main Category");
-    test->add(c1)->add(c2);
+    test->add(c1); c1->add(c2);
 
     EXPECT_EQ(test->getChildren().size(), 1);   // test contains c1 in its children vector
     EXPECT_EQ(test->itemCount(), 0);            // recusively check all children for media
 
     c2->add(b1); c2->add(b2);                   // add media to Sub Sub Category
     EXPECT_EQ(test->itemCount(), 2);
-    EXPECT_EQ(test->findMedia("BookTitle")->getAuthor(), "SomeAuthor");
 
-    delete test;
+    EXPECT_EQ( test->findMedia("BookTitle")->getAuthor(), "SomeAuthor");
+
+    //delete test;
 }
 
 #endif
