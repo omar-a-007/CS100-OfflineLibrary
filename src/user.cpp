@@ -30,7 +30,7 @@ bool User::deleteAccount(const std::string& password)
 
 	std::string encrypted_password = encrypt_RSA(password);
 	bool result = DBwrapper::deleteAccount(email, encrypted_password);
-	logout();
+	if (result) logout();
 	return result;
 }
 
