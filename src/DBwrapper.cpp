@@ -4,13 +4,13 @@
 #include <vector> 
 
 #include "../headers/DBwrapper.h"
-//#include "../headers/user.h"
+#include "../headers/user.h"
 
 DBwrapper::DBwrapper()
 {
-    DBversion = "0.94";
+    DBversion = "0.95";
     std::cout << checkDBversion() << std::endl << std::endl;
-    
+
     if (checkDBversion() != DBversion) remove(DBfile.c_str());
     initDB();
 }
@@ -285,9 +285,9 @@ void DBwrapper::initDB()
 
 void DBwrapper::initPopulateDB()
 {
+    User u;
     setDBversion();
-    createAccount("admin", "pass", 2);
-    
+    u.createAccount("admin", "pass", 2);    
 
     addCategory(0, "Non-Fiction");
     addCategory(0, "Fiction");
