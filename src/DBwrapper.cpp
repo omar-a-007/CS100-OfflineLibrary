@@ -9,7 +9,6 @@
 DBwrapper::DBwrapper()
 {
     DBversion = "0.95";
-    
     if (checkDBversion() != DBversion) remove(DBfile.c_str());
     initDB();
 }
@@ -211,6 +210,24 @@ bool DBwrapper::changePassword(const std::string& username, const std::string& c
     }
 }
 
+bool DBwrapper::changePrivelageLevel(const std::string& username, int priv)
+{
+    try {       // Open DB file in read-only mode
+        SQLite::Database    db(DBfile, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE);
+        SQLite::Statement query(db, "UPDATE users SET privelageLevel = :priv WHERE email = :userInput");
+        query.bind(":priv", priv);
+        query.bind(":userInput", username);
+
+        return query.exec();
+        }
+    catch (std::exception& e) {
+        std::cout << "ERROR! Unable to change privelage level! Please make sure you entered a username correctly." << std::endl;
+        std::cout << "\t Error Details... SQLite exception: " << e.what() << std::endl;
+
+        return false;
+    }
+}
+
 /************************************************************************************************************
  * 
  *  DB Initialization Relation Functions
@@ -287,7 +304,6 @@ void DBwrapper::initPopulateDB()
     User u;
     setDBversion();
     u.createAccount("admin", "pass", 2);
-    
 
     addCategory(0, "Non-Fiction");
     addCategory(0, "Fiction");
