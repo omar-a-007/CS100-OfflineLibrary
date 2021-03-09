@@ -25,7 +25,7 @@ class DBwrapper {
         static bool createAccount(const std::string& username, const std::string& password, int privelageLevel);
         static bool deleteAccount(const std::string& username, const std::string& password);
         static bool changePassword(const std::string& username, const std::string& cur_pass, const std::string& new_pass);
-
+	static bool changePrivelageLevel(const std::string& username, int priv);
         int addCategory(const int ParentID, const std::string& Title);
         int addMedia(const int CID, const std::string& mediaType, const std::string& Title, const std::string& Author, const double Cost, const int Quantity, const int Length, const std::string& ISBN);
 
