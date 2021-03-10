@@ -40,7 +40,7 @@ class Library : public LibraryManagement
 		// Transaction Related Functions (borrowing, late payments, etc)
 		void showTransactions(int UID, bool showHistory, std::ostream& stream = std::cout);
 		void makePayment(int);
-		void borrow(Media*);
+		bool borrow(Media*);
 
 		// Export
 		void exportData(const std::string& filename, Exporter*);

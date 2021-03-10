@@ -164,11 +164,23 @@ Choose an option:)");
 
       // [B]orrow from the Library
       else if (userAction == 'B' && lib.getPrivelageLevel() != 0) {
-         std::string searchMethod;
+         std::string searchMethod; 
          std::cout << "Would you like to enter the Media ID or Title (Type [T]itle for title)? ";
          std::cin >> searchMethod;
-         
-
+         searchMethod = searchMethod[0] == 't' || searchMethod[0] == 'T' ? "Title" : "Media ID";
+         std::cout << searchMethod << ": ";
+         if (searchMethod == "Title") {
+            std::string search;
+            std::cin >> search;
+            try {lib.borrow(lib.findMedia(search)); std::cout << "Borrowing the item was a success! Please return within 60 days.\nAfter 60 days the item will be considered lost and your account will be charged the replacement cost.";}
+            catch(std::exception &err) { std::cout << "ERROR! Please try again."; }
+         }
+         else {
+            int search;
+            std::cin >> search;
+            try {lib.borrow(lib.findMedia(search)); std::cout << "Borrowing the item was a success! Please return within 60 days.\nAfter 60 days the item will be considered lost and your account will be charged the replacement cost.";}
+            catch(std::exception &err) { std::cout << "ERROR! Please try again."; }
+         }
       }
 
       // [W]hat's being borrowed by a user

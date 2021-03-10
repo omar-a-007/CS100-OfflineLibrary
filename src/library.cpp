@@ -44,8 +44,21 @@ void Library::showTransactions(int UID, bool showHistory, std::ostream& stream)
 }
 
 
-void Library::borrow(Media* media)
+bool Library::borrow(Media* media)
 {
+    if (!media->getQuantityAvailable()) return false;
+
+    Transaction* t = new Transaction(getUID(), media->getMID(), false);
+
+    bool result = t->createTransaction();
+
+    if (result) {
+        borrowLog.push_back(t);
+        media->setQuantityAvailable(media->getQuantityAvailable() - 1);
+        DBwrapper::mediaSetQty(media->getMID(), media->getQuantityAvailable());
+    }
+    else {delete t;}
+    return result;
 }
 
 

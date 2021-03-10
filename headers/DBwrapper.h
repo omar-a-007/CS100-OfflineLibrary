@@ -32,6 +32,9 @@ class DBwrapper {
         static int addCategory(int ParentID, const std::string& Title);
         static int addMedia(int CID, const std::string& mediaType, const std::string& Title, const std::string& Author, double Cost, int Quantity, int Length, const std::string& ISBN);
 
+
+        static void mediaSetQty(int MID, int Qty);
+
         static void getCategories(std::list<Category*>& v);
         static void getMedia(std::list<Media*>& v);
 

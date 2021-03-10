@@ -25,11 +25,7 @@ int main ()
 {
     Library lib;
 
-    //std::list<Transaction*> v;
-    //getTransactions(1, v);
-    //std::cout<< v.size() << std::endl; 
-
-//    test1();
+    
 
     return 0;
 }

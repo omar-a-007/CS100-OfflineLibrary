@@ -59,6 +59,24 @@ int DBwrapper::addMedia(int CID, const std::string& mediaType, const std::string
     }
 }
 
+void DBwrapper::mediaSetQty(int MID, int Qty)
+{
+    try {   // Open DB file for read/write
+        SQLite::Database     db(DBfile, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE);
+        SQLite::Statement query(db, "UPDATE media SET Quantity = :Qty WHERE MID = :MID");
+        db.exec("PRAGMA foreign_keys = ON;");   // Must be run each time a new DB connection is established in order to enforce foreign-key constraints
+
+        query.bind(":MID", MID);
+        query.bind(":Qty", Qty);
+
+        query.exec();
+    }
+    catch (std::exception& e) {
+        std::cout << "ERROR! Unable to modify media quantity." << std::endl;
+        std::cout << "\t Error Details... SQLite exception: " << e.what() << std::endl;
+    }
+}
+
 
 void DBwrapper::getCategories(std::list<Category*>& v)
 {
@@ -123,6 +141,7 @@ int DBwrapper::addTransaction(int UID, int MID, long DueDate)
         query.bind(":UID", UID);
         query.bind(":MID", MID);
         query.bind(":DueDate", DueDate);
+        //std::cout << query.getExpandedSQL() << "\n";
         query.exec();
 
         return db.getLastInsertRowid();
