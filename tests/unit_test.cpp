@@ -8,6 +8,7 @@
 #include "iComponent_test.h"
 #include "user_test.h"
 #include "DBwrapper_test.h"
+#include "library_test.h"
 
 const std::string DBwrapper::DBfile{"test.db3"};
 
