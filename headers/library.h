@@ -43,6 +43,7 @@ class Library
 
 		// Library Related Functions
 		void displayMedia()				{manager.display();}
+		void displaySimpleMedia()			{manager.simpleDisplay();}
 		void displayCategories()		{manager.listCategories();}
 
 		void addCategory(Category* cat, Category* parent = nullptr);
