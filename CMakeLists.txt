@@ -19,6 +19,7 @@ ADD_EXECUTABLE(library
 	src/user.cpp
 	src/iComponent.cpp
 	src/DBwrapper.cpp
+	src/transaction.cpp
 )
 
 ADD_EXECUTABLE(temp
@@ -27,6 +28,7 @@ ADD_EXECUTABLE(temp
 	src/user.cpp
 	src/iComponent.cpp
 	src/DBwrapper.cpp
+	src/transaction.cpp
 )
 
 ADD_EXECUTABLE(test
@@ -35,6 +37,7 @@ ADD_EXECUTABLE(test
 	src/user.cpp
 	src/iComponent.cpp
 	src/DBwrapper.cpp
+	src/transaction.cpp
 )
 
 # Link library and temp executable with SQLiteCpp

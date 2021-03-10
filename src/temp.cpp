@@ -8,8 +8,6 @@
 
 void test1();
 void test2();
-bool addCategoryToDB(const int ParentID, const std::string& Title);
-bool addMediaToDB(const int CID, const std::string& mediaType, const std::string& Title, const std::string& Author, const double Cost, const int Quantity, const int Length, const std::string& ISBN);
 
 // CleanString
 // -- Only use with unbound paramaters
@@ -20,42 +18,16 @@ const std::string cleanString(const std::string& riskyString)
 }
 
 const std::string DBwrapper::DBfile{"library.db3"};
+
+
+
 int main ()
 {
     Library lib;
 
-    std::list<Category*> DBcategories;
-    std::list<Media*> DBmedia;
-
-    lib.DB.getCategories(DBcategories);
-    lib.DB.getMedia(DBmedia);
-
-    Category* root = new Category("Root");    // Root Composite Node
-    
-    for (auto c : DBcategories)
-    {   
-        int PID = c->getPID();
-        if (PID != 0)   { root->findCategory(PID)->add(c); }
-        else            { root->add(c); }
-    }
-    for (auto m : DBmedia)
-    {   
-        int CID = m->getCID();
-        if (CID != 0)   { root->findCategory(CID)->add(m); }
-        else            { root->add(m); }
-    }
-
-    
-    root->display(true, "");
-
-    delete root;
-
-
-    // 
-    // for (auto& m : media)
-    // {
-    //     m->display();
-    // }
+    //std::list<Transaction*> v;
+    //getTransactions(1, v);
+    //std::cout<< v.size() << std::endl; 
 
 //    test1();
 

@@ -2,7 +2,7 @@
 #define __LIBRARY_MANAGEMENT_H__
 
 #include <list>
-//#include <iostream>
+#include <iostream>
 
 #include "exporter.h"
 #include "iComponent.h"
@@ -24,15 +24,17 @@ class LibraryManagement {
         Exporter* exporter;
         Category* root;
 
-        LibraryManagement ()                                    { exporter = nullptr;}
-        ~LibraryManagement()                                    { delete root; delete exporter;}
+        LibraryManagement ()                                     { exporter = nullptr;}
+        ~LibraryManagement()                                     { delete root; delete exporter;}
 
-        void display(std::ostream& stream = std::cout)          { root->display(true, "", stream); }
-	void simpleDisplay(std::ostream& stream = std::cout)	{ root->simpleDisplay("", stream); }
-        void listCategories(std::ostream& stream = std::cout)   { listCategories_recursive(root, "", stream); }
+        void display(std::ostream& stream = std::cout)           { root->display(true, "", stream); }
+        void simpleDisplay(std::ostream& stream = std::cout)	   { root->simpleDisplay("", stream); }
+        void listCategories(std::ostream& stream = std::cout)    { listCategories_recursive(root, "", stream); }
         
-        Media* findMedia(std::string query);
-        Category* findCategory(std::string query);
+        Media* findMedia(int MID)                                { return root->findMedia(MID);      }
+        Media* findMedia(const std::string& title)               { return root->findMedia(title);    }
+        Category* findCategory(int CID)                          { return root->findCategory(CID);   }
+        Category* findCategory(const std::string& title)         { return root->findCategory(title); }
 
         void createCategory(iComponent *);
         void removeCategory(iComponent *);
