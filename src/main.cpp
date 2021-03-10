@@ -44,6 +44,7 @@ Library Menu
   W - [W]hat am I borrowing
   
   S - [S]how All Categories
+  T - [T]itles output with limited details
   V - [V]iew All Items with details
 
   E - [E]xport Database
@@ -148,17 +149,26 @@ Choose an option:)");
 
       // Delete Account
       else if (userAction == 'D' && lib.getPrivelageLevel() != 0) {
-            std::string Confirm, P;
-            std::cout << "Are you sure you want to delete your account? (y/yes to continue): ";
-            std::getline(std::cin, Confirm);
-            if (toupper(Confirm[0]) != 'Y') continue;
+         std::string Confirm, P;
+         std::cout << "Are you sure you want to delete your account? (y/yes to continue): ";
+         std::getline(std::cin, Confirm);
+         if (toupper(Confirm[0]) != 'Y') continue;
 
-            std::cout << "Please confirm your password: ";
-            std::getline(std::cin, P);
+         std::cout << "Please confirm your password: ";
+         std::getline(std::cin, P);
 
-            (lib.deleteAccount(P) == true ) ? 
-               std::cout << "Account deleted. We're sorry to see you go.\n" : 
-               std::cout << "ERROR! Unable to delete account. Incorrect password provided. Please try again.\n";
+         (lib.deleteAccount(P) == true ) ? 
+            std::cout << "Account deleted. We're sorry to see you go.\n" : 
+            std::cout << "ERROR! Unable to delete account. Incorrect password provided. Please try again.\n";
+      }
+
+      // [B]orrow from the Library
+      else if (userAction == 'B' && lib.getPrivelageLevel() != 0) {
+         std::string searchMethod;
+         std::cout << "Would you like to enter the Media ID or Title (Type [T]itle for title)? ";
+         std::cin >> searchMethod;
+         
+
       }
 
       // [W]hat's being borrowed by a user
@@ -172,24 +182,25 @@ Choose an option:)");
          std::cout << "Would you like to see your borrow history the well (Y/yes to view)? ";
          std::cin >> historicalView;
          bool showHistory = (historicalView[0] == 'y' || historicalView[0] == 'Y' ? true : false);
+
          lib.showTransactions(UID, showHistory);
       }      
 
       // [V]iew All Items
       else if (userAction == 'V' && lib.getPrivelageLevel() != 0) {
-            lib.displayMedia();
+         lib.display();
       }
 
       // [T]itles output with limited details
       else if (userAction =='T' && lib.getPrivelageLevel() != 0) {
-	    lib.displaySimpleMedia();
+	      lib.simpleDisplay();
       }
 
       // [S]how All Categories
       else if (userAction == 'S' && lib.getPrivelageLevel() != 0) {
-            std::cout << "\nList of Categories\n";
-            std::cout << "------------------\n";
-            lib.displayCategories();
+         std::cout << "\nList of Categories\n";
+         std::cout << "------------------\n";
+         lib.listCategories();
       }
    } 
 }

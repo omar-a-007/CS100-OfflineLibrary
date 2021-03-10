@@ -5,27 +5,11 @@
 
 #include <string>
 #include <list>
-//#include <iterator>
-//#include <sstream>
 
 #include "../headers/library.h"
 #include "../headers/DBwrapper.h"
 
 using namespace std;
-
-// DBwrapper();
-
-// static int login( username, password);
-// static bool createAccount( username, password, int privelageLevel);
-// static bool deleteAccount( username, password);
-// static bool changePassword( username, cur_pass, new_pass);
-
-// int addCategory(const int ParentID, const std::string& Title);
-// int addMedia(const int CID, const std::string& mediaType, const std::string& Title, const std::string& Author, const double Cost, const int Quantity, const int Length, const std::string& ISBN);
-
-// void getCategories(std::list<Category*>& v);
-// void getMedia(std::list<Media*>& v);
-
 
 /*
  *   /================\
