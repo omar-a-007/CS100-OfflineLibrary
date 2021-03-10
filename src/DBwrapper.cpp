@@ -1,10 +1,6 @@
-#include <string>
-#include <iostream>
 #include <cstdlib>
-#include <list> 
 
 #include "../headers/DBwrapper.h"
-#include "../headers/user.h"
 
 DBwrapper::DBwrapper()
 {
@@ -19,22 +15,17 @@ DBwrapper::DBwrapper()
  * 
  * **********************************************************************************************************/
 
-int DBwrapper::addCategory(const int ParentID, const std::string& Title)
+int DBwrapper::addCategory(int ParentID, const std::string& Title)
 {
     try {   // Open DB file for read/write
         SQLite::Database     db(DBfile, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE);
         SQLite::Statement query(db, "INSERT INTO category VALUES (NULL, " + ((ParentID == 0) ? "NULL" : std::to_string(ParentID)) + ", :title)");
-        query.bind(":title", Title);
-
-        //std::cout  << query.getExpandedSQL() << std::endl;
         db.exec("PRAGMA foreign_keys = ON;");   // Must be run each time a new DB connection is established in order to enforce foreign-key constraints
+        
+        query.bind(":title", Title);
         query.exec();
 
-        SQLite::Statement query2(db, "SELECT CID FROM category WHERE Title = :title");
-        query2.bind(":title", Title);
-        query2.executeStep();
-        return query2.getColumn(0);
-
+        return db.getLastInsertRowid();
     }
     catch (std::exception& e) {
         std::cout << "ERROR! Unable to add category to the DB. Please make sure the category doesn't already exist." << std::endl;
@@ -43,11 +34,12 @@ int DBwrapper::addCategory(const int ParentID, const std::string& Title)
     }
 }
 
-int DBwrapper::addMedia(const int CID, const std::string& mediaType, const std::string& Title, const std::string& Author, const double Cost, const int Quantity, const int Length, const std::string& ISBN)
+int DBwrapper::addMedia(int CID, const std::string& mediaType, const std::string& Title, const std::string& Author, double Cost, int Quantity, int Length, const std::string& ISBN)
 {
     try {   // Open DB file for read/write
         SQLite::Database     db(DBfile, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE); 
         SQLite::Statement query(db, "INSERT INTO media VALUES (NULL, " + ((CID == 0) ? "NULL" : std::to_string(CID)) + ", :mediaType, :title, :author, :cost, :qty, :length, :isbn)");        
+        db.exec("PRAGMA foreign_keys = ON;");   // Must be run each time a new DB connection is established in order to enforce foreign-key constraints
 
         query.bind(":mediaType", mediaType);
         query.bind(":title", Title);       
@@ -56,15 +48,9 @@ int DBwrapper::addMedia(const int CID, const std::string& mediaType, const std::
         query.bind(":qty", Quantity);
         query.bind(":length", Length);
         query.bind(":isbn", ISBN);
-
-        //std::cout  << query.getExpandedSQL() << std::endl;
-        db.exec("PRAGMA foreign_keys = ON;");   // Must be run each time a new DB connection is established in order to enforce foreign-key constraints
         query.exec();
 
-        SQLite::Statement query2(db, "SELECT MID FROM media WHERE Title = :title");
-        query2.bind(":title", Title);
-        query2.executeStep();
-        return query2.getColumn(0);
+        return db.getLastInsertRowid();
     }
     catch (std::exception& e) {
         std::cout << "ERROR! Unable to add item to the DB. Please make sure the item doesn't already exist and the selected category is accurate." << std::endl;
@@ -72,6 +58,7 @@ int DBwrapper::addMedia(const int CID, const std::string& mediaType, const std::
         return -1;
     }
 }
+
 
 void DBwrapper::getCategories(std::list<Category*>& v)
 {
@@ -119,6 +106,69 @@ void DBwrapper::getMedia(std::list<Media*>& v)
         std::cout << "\t Error Details... SQLite exception: " << e.what() << std::endl;
     }
 }
+
+/************************************************************************************************************
+ * 
+ *  Transaction Related SQL Queries
+ * 
+ * **********************************************************************************************************/
+
+int DBwrapper::addTransaction(int UID, int MID, long DueDate)
+{
+    try {   // Open DB file for read/write
+        SQLite::Database     db(DBfile, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE);
+        SQLite::Statement query(db, "INSERT INTO transactions VALUES (NULL, :UID, :MID, :DueDate)");
+        db.exec("PRAGMA foreign_keys = ON;");   // Must be run each time a new DB connection is established in order to enforce foreign-key constraints
+
+        query.bind(":UID", UID);
+        query.bind(":MID", MID);
+        query.bind(":DueDate", DueDate);
+        query.exec();
+
+        return db.getLastInsertRowid();
+    }
+    catch (std::exception& e) {
+        std::cout << "ERROR! Unable to add borrow item." << std::endl;
+        std::cout << "\t Error Details... SQLite exception: " << e.what() << std::endl;
+        return -1;
+    }
+}
+
+bool DBwrapper::modifyTransaction(int TID, long DueDate)
+{
+    try {   // Open DB file for read/write
+        SQLite::Database     db(DBfile, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE);
+        SQLite::Statement query(db, "UPDATE transactions SET DueDate = :DueDate WHERE TID = :TID");
+        db.exec("PRAGMA foreign_keys = ON;");   // Must be run each time a new DB connection is established in order to enforce foreign-key constraints
+
+        query.bind(":TID", TID);
+        query.bind(":DueDate", DueDate);
+
+        return query.exec();
+    }
+    catch (std::exception& e) {
+        std::cout << "ERROR! Unable to modify transaction. Make sure TID exists." << std::endl;
+        std::cout << "\t Error Details... SQLite exception: " << e.what() << std::endl;
+        return false;
+    }
+}
+
+void DBwrapper::getTransactions(int UID, std::list<Transaction*>& v)
+{
+    try {	// Open DB file in read-only mode
+        SQLite::Database    db(DBfile); // SQLite::OPEN_READONLY
+	    SQLite::Statement query(db, "SELECT * FROM transactions ORDER BY TID;");
+		while (query.executeStep())
+        {
+            v.push_back( new Transaction(query.getColumn("TID"), query.getColumn("UID"), query.getColumn("MID"), query.getColumn("DueDate")) );
+        }
+	}
+    catch (std::exception& e) {
+        std::cout << "ERROR! There was an issue reading the ledger from the DB." << std::endl;
+        std::cout << "\t Error Details... SQLite exception: " << e.what() << std::endl;
+    }
+}
+
 
 /************************************************************************************************************
  * 

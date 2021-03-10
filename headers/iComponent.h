@@ -109,6 +109,7 @@ class Category : public iComponent{
         void remove(iComponent* component);
 
         Media* findMedia(const std::string& title);
+        Media* findMedia(int MID);
         Category* findCategory(int CID);
         Category* findCategory(const std::string& title);
 

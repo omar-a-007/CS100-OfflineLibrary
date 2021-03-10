@@ -7,7 +7,9 @@
 #include <SQLiteCpp/SQLiteCpp.h>
 
 #include "iComponent.h"
+#include "transaction.h"
 #include "user.h"
+
 
 class DBwrapper {
     private:
@@ -27,11 +29,15 @@ class DBwrapper {
         static bool changePassword(const std::string& username, const std::string& cur_pass, const std::string& new_pass);
         static bool changePrivelageLevel(const std::string& username, int priv);
   
-        static int addCategory(const int ParentID, const std::string& Title);
-        static int addMedia(const int CID, const std::string& mediaType, const std::string& Title, const std::string& Author, const double Cost, const int Quantity, const int Length, const std::string& ISBN);
+        static int addCategory(int ParentID, const std::string& Title);
+        static int addMedia(int CID, const std::string& mediaType, const std::string& Title, const std::string& Author, double Cost, int Quantity, int Length, const std::string& ISBN);
 
         static void getCategories(std::list<Category*>& v);
         static void getMedia(std::list<Media*>& v);
+
+        static int addTransaction(int UID, int MID, long DueDate);
+        static bool modifyTransaction(int TID, long DueDate);
+        static void getTransactions(int UID, std::list<Transaction*>& v);
 };
 
 #endif

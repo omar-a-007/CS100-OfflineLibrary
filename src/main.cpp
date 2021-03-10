@@ -41,6 +41,7 @@ PROMPT.push_back(R"(----------------------
 Library Menu
 ----------------------
   B - [B]orrow from the Library
+  W - [W]hat am I borrowing
   
   S - [S]how All Categories
   V - [V]iew All Items with details
@@ -59,6 +60,7 @@ PROMPT.push_back(R"(----------------------
 Library Admin Menu
 ----------------------
   B - [B]orrow from the Library
+  W - [W]hat's being borrowed by a user
   
   S - [S]how All Categories
   V - [V]iew All Items with details
@@ -81,67 +83,68 @@ Choose an option:)");
    while ( (userAction = GetAction(PROMPT[lib.getPrivelageLevel()])) != EXIT_CODE) {
       // Login
       if (userAction == 'L' && lib.getPrivelageLevel() == 0) {
-            std::string U, P;
-            std::cout << "Please enter your username/email: ";
-            std::getline(std::cin, U);
-            std::cout << "Please enter your password: ";
-            std::getline(std::cin, P);
-            (lib.login(U, P) == true)  ?
-               std::cout << "Successfully logged in, welcome " + U + "\n" : std::cout << "ERROR! Username or Password provided is incorrect\n";
+         std::string U, P;
+         std::cout << "Please enter your username/email: ";
+         std::getline(std::cin, U);
+         std::cout << "Please enter your password: ";
+         std::getline(std::cin, P);
+         (lib.login(U, P) == true)  ?
+            std::cout << "Successfully logged in, welcome " + U + "\n" : std::cout << "ERROR! Username or Password provided is incorrect\n";
       }
       // Create Account
       else if (userAction == 'C' && lib.getPrivelageLevel() != 1) {
-            std::string U, P, L = "1";
-            std::cout << "Please enter a username/email: ";
-            std::getline(std::cin, U);
-            std::cout << "Please enter a password: ";
-            std::getline(std::cin, P);
-            if (lib.getPrivelageLevel() == 2) {
-               std::cout << "Normal User (1) or Admin User (2)?: ";
-               std::getline(std::cin, L);
-               if (L != "1" && L != "2") L = "1";
-            }
-            (lib.createAccount(U, P, std::stoi(L)) == true) ?
-               std::cout << "Account created successfully!\n" : std::cout << "ERROR! An account with that username already exists. Please try again.\n";
-            if (lib.getPrivelageLevel() != 2) lib.login(U,P);
+         std::string U, P, L = "1";
+         std::cout << "Please enter a username/email: ";
+         std::getline(std::cin, U);
+         std::cout << "Please enter a password: ";
+         std::getline(std::cin, P);
+         if (lib.getPrivelageLevel() == 2) {
+            std::cout << "Normal User (1) or Admin User (2)?: ";
+            std::getline(std::cin, L);
+            if (L != "1" && L != "2") L = "1";
+         }
+         (lib.createAccount(U, P, std::stoi(L)) == true) ?
+            std::cout << "Account created successfully!\n" : std::cout << "ERROR! An account with that username already exists. Please try again.\n";
+         if (lib.getPrivelageLevel() != 2) lib.login(U,P);
       }
       // Change Password
       else if (userAction == 'P' && lib.getPrivelageLevel() != 0) {
-            std::string P, N;
-            std::cout << "Please enter current password: ";
-            std::getline(std::cin, P);
-            std::cout << "Please enter a new password: ";
-            std::getline(std::cin, N);
-            (lib.changePassword(P, N) == true ) ? 
-               std::cout << "Password has been successfully changed.\n" : std::cout << "ERROR! Incorrect password provided. Please try again.\n";
+         std::string P, N;
+         std::cout << "Please enter current password: ";
+         std::getline(std::cin, P);
+         std::cout << "Please enter a new password: ";
+         std::getline(std::cin, N);
+         (lib.changePassword(P, N) == true ) ? 
+            std::cout << "Password has been successfully changed.\n" : std::cout << "ERROR! Incorrect password provided. Please try again.\n";
       }
       
       // Change Privelage Level
       else if (userAction == 'M' && lib.getPrivelageLevel() == 2) {
-	    std::string U, P;
-	    int priv;
-            bool isCorrect = false;
-	    std::cout << "Please enter the name of the user you wish to modify: ";
-	    std::getline(std::cin, U);
-	    while(!isCorrect){
-	    std::cout << "Please enter the new privelage level: ";
-	    std::getline(std::cin, P);
-	    try{
-		priv = stoi(P);
-		isCorrect = true;
-	    } catch(std::exception &err) {
-	        std::cout << "Must enter either 0, 1, or 2.\n";
-	    }
-	    if(priv < 0 || priv > 2) {
-		std::cout << "Must enter either 0, 1, or 2.\n";
-		isCorrect = false;
-	    }
-
-	} 
-	    (lib.changePrivelageLevel(U, priv) == true) ?
-		std::cout << "Privelage Level has been successfully changed.\n" : std::cout << "ERROR! Incorrect username provided. Pleasse try again.\n";
-
+         std::string U, P;
+         int priv;
+         bool isCorrect = false;
+         std::cout << "Please enter the name of the user you wish to modify: ";
+         std::getline(std::cin, U);
+         while(!isCorrect){
+            std::cout << "Please enter the new privelage level: ";
+            std::getline(std::cin, P);
+            try{
+               priv = stoi(P);
+               isCorrect = true;
+            }
+            catch(std::exception &err) {
+               std::cout << "Must enter either 0, 1, or 2.\n";
+            }
+         
+            if(priv < 0 || priv > 2) {
+               std::cout << "Must enter either 0, 1, or 2.\n";
+               isCorrect = false;
+            }
+         } 
+         (lib.changePrivelageLevel(U, priv) == true) ?
+            std::cout << "Privelage Level has been successfully changed.\n" : std::cout << "ERROR! Incorrect username provided. Pleasse try again.\n";
       }
+
       // Delete Account
       else if (userAction == 'D' && lib.getPrivelageLevel() != 0) {
             std::string Confirm, P;
@@ -156,6 +159,20 @@ Choose an option:)");
                std::cout << "Account deleted. We're sorry to see you go.\n" : 
                std::cout << "ERROR! Unable to delete account. Incorrect password provided. Please try again.\n";
       }
+
+      // [W]hat's being borrowed by a user
+      else if (userAction == 'W' && lib.getPrivelageLevel() != 0) {
+         int UID = lib.getUID();
+         std::string historicalView;
+         if (lib.getPrivelageLevel() == 2) {
+            std::cout << "Please enter the users UID that you'd like to see the borrow log of: ";
+            std::cin >> UID;
+         }
+         std::cout << "Would you like to see your borrow history the well (Y/yes to view)? ";
+         std::cin >> historicalView;
+         bool showHistory = (historicalView[0] == 'y' || historicalView[0] == 'Y' ? true : false);
+         lib.showTransactions(UID, showHistory);
+      }      
 
       // [V]iew All Items
       else if (userAction == 'V' && lib.getPrivelageLevel() != 0) {

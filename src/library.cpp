@@ -1,8 +1,9 @@
 #include "../headers/library.h"
+#include "../headers/DBwrapper.h"
 
 Library::Library()
 {
-	manager.root = recreateCompositeFromDB();
+	root = recreateCompositeFromDB();
 }
 
 Category* Library::recreateCompositeFromDB()
@@ -31,9 +32,15 @@ Category* Library::recreateCompositeFromDB()
 	return root;
 }
 
-Library::~Library()
+void Library::showTransactions(int UID, bool showHistory, std::ostream& stream) 
 {
-	
+    if (UID != getUID())
+        clearBorrowLog();
+    if (borrowLog.size() == 0)
+        DB.getTransactions(UID, borrowLog);
+        //DBwrapper::getTransactions(UID, borrowLog);
+    for (auto& i : borrowLog)
+        i->display(root, showHistory, stream);
 }
 
 

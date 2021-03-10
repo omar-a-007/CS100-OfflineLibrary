@@ -103,6 +103,21 @@ Media* Category::findMedia(const std::string& title)
     return nullptr;
 }
 
+Media* Category::findMedia(int MID)
+{
+    for (const auto& c : children)
+    {
+        if (Category* cat = dynamic_cast<Category*>(c))
+        {
+            Media* temp = cat->findMedia(MID);
+            if (temp != nullptr) return temp;
+        }
+        else if (Media* m = dynamic_cast<Media*>(c))
+            if (m->getMID() == MID) return m;
+    }
+    return nullptr;
+}
+
 Category* Category::findCategory(int CID)
 {
     for (const auto& c : children)
