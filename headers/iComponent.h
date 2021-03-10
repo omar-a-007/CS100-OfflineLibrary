@@ -12,6 +12,7 @@ class iComponent{
             : title(title) { }
         virtual ~iComponent() { }
         virtual void display(const std::string& prepend = "", std::ostream& stream = std::cout) = 0;
+	virtual void simpleDisplay(const std::string& prepend = "", std::ostream& stream = std::cout) = 0;
 
         const std::string& getTitle() const         {return this->title;}
         void setTitle(const std::string& Title)     {this->title = Title;}
@@ -33,6 +34,7 @@ class Media : public iComponent{
         virtual ~Media() {};
 
         virtual void display(const std::string& prepend = "", std::ostream& stream = std::cout) = 0;
+	virtual void simpleDisplay(const std::string& prepend = "", std::ostream& stream = std::cout) = 0;
 
         const std::string& getAuthor() const        {return this->Author;}
         void setAuthor(const std::string& Author)   {this->Author = Author;}
@@ -58,6 +60,7 @@ class DVD : public Media {
         DVD(const std::string& Title, const std::string& Author, int contentLength, double Cost = 19.99, int MID = 0, int CID = 0, int quantityAvailable = 0)
             : Media(Title, Author, contentLength, Cost, MID, CID, quantityAvailable) {};
         ~DVD();
+	void simpleDisplay(const std::string& prepend = "", std::ostream& stream = std::cout);
         void display(const std::string& prepend = "", std::ostream& stream = std::cout) override;
 };
 
@@ -68,6 +71,7 @@ class Book : public Media {
         Book(const std::string& Title, const std::string& Author, const std::string& ISBN, int contentLength, double Cost = 9.99, int MID = 0, int CID = 0, int quantityAvailable = 0)
             :Media(Title, Author, contentLength, Cost, MID, CID, quantityAvailable), ISBN(ISBN) { }
         ~Book();
+	void simpleDisplay(const std::string& prepend = "", std::ostream& stream = std::cout);
         void display(const std::string& prepend = "", std::ostream& stream = std::cout) override;
 
         const std::string& getISBN() const        {return this->ISBN;}
@@ -79,6 +83,7 @@ class AudioBook : public Media {
         AudioBook(const std::string& Title, const std::string& Author, int contentLength, double Cost = 19.99, int MID = 0, int CID = 0, int quantityAvailable = 0)
             : Media(Title, Author, contentLength, Cost, MID, CID, quantityAvailable) { }
         ~AudioBook();
+	void simpleDisplay(const std::string& prepend = "", std::ostream& stream = std::cout);
         void display(const std::string& prepend = "", std::ostream& stream = std::cout) override;
 };
 
@@ -89,12 +94,12 @@ class Category : public iComponent{
         int CID;
         int PID;
         std::list<iComponent *> children;
-        //std::unordered_map<std::string, iComponent*> children2;
     public:
         Category(const std::string& title, int CID = 0, int PID = 0)
             : iComponent(title), CID(CID), PID(PID) { }
         ~Category() override;
         void display(const std::string& prepend = "", std::ostream& stream = std::cout) override;
+	void simpleDisplay(const std::string& prepend = "", std::ostream& stream = std::cout);
         void display(bool isRoot, const std::string& prepend, std::ostream& stream = std::cout);
 
         const int getCID() const                    {return this->CID;}

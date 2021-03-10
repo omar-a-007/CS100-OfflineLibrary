@@ -61,6 +61,7 @@ Library Admin Menu
   B - [B]orrow from the Library
   
   S - [S]how All Categories
+  T - [T]itles output with limited details
   V - [V]iew All Items with details
 
   E - [E]xport Database
@@ -160,6 +161,11 @@ Choose an option:)");
       // [V]iew All Items
       else if (userAction == 'V' && lib.getPrivelageLevel() != 0) {
             lib.displayMedia();
+      }
+
+      // [T]itles output with limited details
+      else if (userAction =='T' && lib.getPrivelageLevel() != 0) {
+	    lib.displaySimpleMedia();
       }
 
       // [S]how All Categories
