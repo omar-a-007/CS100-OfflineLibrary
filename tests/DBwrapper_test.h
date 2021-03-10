@@ -5,8 +5,8 @@
 
 #include <string>
 #include <list>
-#include <iterator>
-#include <sstream>
+//#include <iterator>
+//#include <sstream>
 
 #include "../headers/library.h"
 #include "../headers/DBwrapper.h"
@@ -35,7 +35,11 @@ using namespace std;
  *   Some functions, such as createAccount and changePassword *must* be used through other classes (User) in order to function as expected.
  */
 
+
+
 TEST(DBwrapperTest, db_Initialization) {
+    EXPECT_EQ(remove("test.db3"), 0);
+
     DBwrapper db;   // Checks the current DB version, deletes the DB if theres an update.
                     // Then creates a DB with a slew of default data if no DB is found.
     User u;
@@ -172,10 +176,44 @@ TEST(DBwrapperTest, db_getCategories) {
 
 
 
+TEST(DBwrapperTest, db_addTransaction_success) {
+    EXPECT_EQ(DBwrapper::addTransaction(1, 1, 0), 1);
+    EXPECT_EQ(DBwrapper::addTransaction(1, 2, 0), 2);
+    EXPECT_EQ(DBwrapper::addTransaction(1, 3, 0), 3);
+}
+
+TEST(DBwrapperTest, db_addTransaction_FAIL_badUID) {
+    EXPECT_EQ(DBwrapper::addTransaction(99, 1, 0), -1);
+}
+
+TEST(DBwrapperTest, db_addTransaction_FAIL_badMID) {
+    EXPECT_EQ(DBwrapper::addTransaction(1, 99, 0), -1);
+}
+
+TEST(DBwrapperTest, db_modifyTransaction_success) {
+    EXPECT_TRUE(DBwrapper::modifyTransaction(1, 1));
+}
+
+TEST(DBwrapperTest, db_modifyTransaction_success_largeNumber) {
+    EXPECT_TRUE(DBwrapper::modifyTransaction(1, 987546321548));
+}
+
+TEST(DBwrapperTest, db_modifyTransaction_success_zero) {
+    EXPECT_TRUE(DBwrapper::modifyTransaction(1, 0));
+}
+TEST(DBwrapperTest, db_modifyTransaction_success_negativeNumber) {
+    EXPECT_TRUE(DBwrapper::modifyTransaction(1, -1));
+}
+
+TEST(DBwrapperTest, db_modifyTransaction_FAIL_badTID) {
+    EXPECT_FALSE(DBwrapper::modifyTransaction(99, 1));
+}
+
 
 TEST(DBwrapperTest, cleanup)
 {
-    EXPECT_EQ(remove("test.db3"), 0);
+    //EXPECT_EQ(remove("test.db3"), 0);
+    EXPECT_TRUE(true);
 }
 
 #endif
