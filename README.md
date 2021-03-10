@@ -50,6 +50,7 @@ A combination of the Facade, Composition, and Strategy design patterns are used.
  ## Installation/Usage
  > Instructions on installing and running your application
  ## Testing
- > For testing, we use 'googletest' to conduct unit testing. We have a 'unit_test.h' file which includes all unit tests in each class. We create unit tests for each public function with both vaild and invalid input. We run the full battery of tests whenever we introduce a new class or change the way an existing class functions. 
- > We also tested the program for memory leaks by compiling a debug build and running the program through 'valgrind', simulating typical user and admin operations before quitting, to make sure there's no memory leak. 
+For testing, we used 'googletest' to conduct unit testing. We have a 'unit_test.h' file which includes all unit tests in each class. We create unit tests for each public function with both vaild and invalid input. We run the full battery of tests whenever we introduce a new class or change the way an existing class functions. 
+
+We also tested the program for memory leaks by compiling a debug build and running the program through 'valgrind', simulating typical user and admin operations before quitting, to make sure there's no memory leak. 
  
