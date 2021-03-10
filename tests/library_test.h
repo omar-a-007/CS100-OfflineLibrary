@@ -13,9 +13,11 @@ using namespace std;
 
 TEST(LibraryTest, login_success) {
     Library lib;
+    EXPECT_EQ(lib.getUID(), 0);
     EXPECT_EQ(lib.getUsername(), "");
     EXPECT_EQ(lib.getPrivelageLevel(), 0);    
     EXPECT_TRUE(lib.login("admin", "pass"));   
+    EXPECT_EQ(lib.getUID(), 1);
     EXPECT_EQ(lib.getUsername(), "admin");
     EXPECT_EQ(lib.getPrivelageLevel(), 2);
 }
@@ -79,5 +81,18 @@ TEST(LibraryTest, changePassword_FAIL_notLoggedIn) {
     Library lib;
     EXPECT_FALSE(lib.changePassword("zzz", "def"));
 }
+
+TEST(LibraryTest, borrowMedia) {
+    Library lib;
+    EXPECT_TRUE(lib.login("admin", "pass"));
+    
+    Media* m  = lib.findMedia("Ghandi");
+    EXPECT_EQ(m->getQuantityAvailable(), 2);
+
+    EXPECT_TRUE(lib.borrow(m));
+    EXPECT_EQ(m->getQuantityAvailable(), 1);
+}
+
+
 
 #endif

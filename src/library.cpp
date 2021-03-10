@@ -46,10 +46,10 @@ void Library::showTransactions(int UID, bool showHistory, std::ostream& stream)
 
 bool Library::borrow(Media* media)
 {
+    if (media == nullptr) return false;
     if (!media->getQuantityAvailable()) return false;
 
     Transaction* t = new Transaction(getUID(), media->getMID(), false);
-
     bool result = t->createTransaction();
 
     if (result) {

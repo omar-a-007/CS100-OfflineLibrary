@@ -9,8 +9,6 @@
 #include "../headers/library.h"
 #include "../headers/DBwrapper.h"
 
-using namespace std;
-
 /*
  *   /================\
  *   *** Usage Note ***
@@ -193,10 +191,18 @@ TEST(DBwrapperTest, db_modifyTransaction_FAIL_badTID) {
     EXPECT_FALSE(DBwrapper::modifyTransaction(99, 1));
 }
 
+TEST(DBwrapperTest, db_getTransactions) {
+    std::list<Transaction*> test;
+    DBwrapper::getTransactions(1, test);
+    EXPECT_EQ(test.size(), 3);
+    EXPECT_EQ(test.front()->UID, 1);
+    EXPECT_EQ(test.front()->MID, 1);
+}
+
 
 TEST(DBwrapperTest, cleanup)
 {
-    //EXPECT_EQ(remove("test.db3"), 0);
+    EXPECT_EQ(remove("test.db3"), 0);
     EXPECT_TRUE(true);
 }
 
