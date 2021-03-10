@@ -27,8 +27,9 @@ class LibraryManagement {
         LibraryManagement ()                                     { exporter = nullptr;}
         ~LibraryManagement()                                     { delete root; delete exporter;}
 
-        void displayMedia(std::ostream& stream = std::cout)      { root->display(true, "", stream); }
-        void displayCategories(std::ostream& stream = std::cout) { listCategories_recursive(root, "", stream); }
+        void display(std::ostream& stream = std::cout)           { root->display(true, "", stream); }
+        void simpleDisplay(std::ostream& stream = std::cout)	   { root->simpleDisplay("", stream); }
+        void listCategories(std::ostream& stream = std::cout)    { listCategories_recursive(root, "", stream); }
         
         Media* findMedia(int MID)                                { return root->findMedia(MID);      }
         Media* findMedia(const std::string& title)               { return root->findMedia(title);    }
