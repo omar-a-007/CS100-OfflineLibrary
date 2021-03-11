@@ -50,7 +50,7 @@ A combination of the Facade, Composition, and Strategy design patterns are used.
  ## Installation/Usage
 To install this program, we use `git clone` to get the repository, and `cd` into it.
 ```
-git clone https://github.com/cs100/final-project-oalk001-smaht003-xxie043.git
+git clone --recursive https://github.com/cs100/final-project-oalk001-smaht003-xxie043.git
 cd final-project-oalk001-smaht003-xxie043
 ```
 We will be using `cmake .` and `make` to create executables (use `cmake3 .` on hammer), which will be `test` and `library`.
