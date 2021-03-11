@@ -48,7 +48,20 @@ A combination of the Facade, Composition, and Strategy design patterns are used.
  ## Screenshots
  > Screenshots of the input/output after running your application
  ## Installation/Usage
- > Instructions on installing and running your application
+To install this program, we use 'git clone' to get the repository, and 'cd' into it.
+```
+git clone https://github.com/cs100/final-project-oalk001-smaht003-xxie043.git
+cd final-project-oalk001-smaht003-xxie043
+```
+We will be using 'cmake .' and 'make' to create executables (use 'cmake3 .' on hammer), which will be 'test' and 'library'.
+```
+cmake .
+make
+```
+After that, we will run the program by running the 'library' executable.
+```
+./library
+```
  ## Testing
 For testing, we used 'googletest' to conduct unit testing. We have a 'unit_test.h' file which includes all unit tests in each class. We create unit tests for each public function with both vaild and invalid input. We run the full battery of tests whenever we introduce a new class or change the way an existing class functions. 
 
