@@ -69,4 +69,6 @@ We also tested the program for memory leaks by compiling a debug build and runni
 
 <details><summary>Googletest and Valgrind results</summary>
 <p>
- 
+
+```$ valgrind ./library
+```
