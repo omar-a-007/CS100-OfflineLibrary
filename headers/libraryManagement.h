@@ -35,11 +35,6 @@ class LibraryManagement {
         Media* findMedia(const std::string& title)               { return root->findMedia(title);    }
         Category* findCategory(int CID)                          { return root->findCategory(CID);   }
         Category* findCategory(const std::string& title)         { return root->findCategory(title); }
-
-        void createCategory(iComponent *);
-        void removeCategory(iComponent *);
-
-        void addMediaToCategory(iComponent* category, iComponent* Media);
 };
 
 
