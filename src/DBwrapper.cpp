@@ -243,19 +243,22 @@ bool DBwrapper::createAccount(const std::string& username, const std::string& pa
 
 bool DBwrapper::deleteAccount( const std::string& username, const std::string& password)
 {		
-    try {	// Open DB file in read-only mode
+    try {    // Open DB file in read-only mode
         SQLite::Database    db(DBfile, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE); 
-	    /*
-        SQLite::Statement query(db, "SELECT * FROM users WHERE email = :email and password = :pass");
-        query.bind(":email", username);
-        query.bind(":pass", password);
-		if (!query.executeStep()) return false;	 // provided password doesn't match stored password
-        */
-	    SQLite::Statement query2(db, "DELETE FROM users WHERE email = :email AND password = :pass;");
+        SQLite::Statement query(db, "SELECT * FROM users WHERE privelageLevel = 2");
+        int count = 0;
+        while query.executeStep() ++count;
+        if(count < 2) throw std::runtime_error("ERROR! Unable to delete the only admin account!");
+
+        SQLite::Statement query2(db, "DELETE FROM users WHERE email = :email AND password = :pass;");
         query2.bind(":email", username);
         query2.bind(":pass", password);
-		return query2.exec();
-	}
+        return query2.exec();
+    }
+    catch (const std::runtime_error& error) {
+        std::cout << e.what() << std::endl;
+        return false;        
+    }
     catch (std::exception& e) {
         std::cout << "ERROR! Unable to delete account!" << std::endl;
         std::cout << "\t Error Details... SQLite exception: " << e.what() << std::endl;
