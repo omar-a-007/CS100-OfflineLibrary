@@ -12,6 +12,7 @@ class User{
 		User()
 			: privelageLevel(0) {};
 		User(const std::string& email, const std::string& password);
+		User (int UID, const std::string& email, int privelageLevel) : UID(UID), email(email), privelageLevel(privelageLevel) {}
 
 		const int getUID()							{return this->UID;} 
 		void setUID(int UID)						{this->UID = UID;} 
