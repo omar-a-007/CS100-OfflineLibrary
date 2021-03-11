@@ -286,6 +286,22 @@ bool DBwrapper::deleteAccount( const std::string& username, const std::string& p
     }
 }
 
+void DBwrapper::getUserAccounts(std::list<User>& accounts)
+{
+    try {    // Open DB file in read-only mode
+            SQLite::Database    db(DBfile); // SQLite::OPEN_READONLY
+        SQLite::Statement query(db, "SELECT * FROM users ORDER BY UID;");
+        while (query.executeStep())
+        {
+            accounts.push_back( User(query.getColumn("UID"), query.getColumn("email"), query.getColumn("privelageLevel")) );
+        }
+    }
+    catch (std::exception& e) {
+        std::cout << "ERROR! There was an issue reading the categories from the DB." << std::endl;
+        std::cout << "\t Error Details... SQLite exception: " << e.what() << std::endl;
+    }
+}
+
 bool DBwrapper::changePassword(const std::string& username, const std::string& current_password, const std::string& new_password)
 {
     try {	// Open DB file in read-only mode
