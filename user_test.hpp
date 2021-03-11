@@ -2,7 +2,7 @@
 #define __USER_TEST_HPP__
 
 #include "gtest/gtest.h"
-#include "headers/User.h"
+#include "headers/user.h"
 
 //Test getPrivelageLevel()
 TEST(pLevel, Default){
@@ -39,5 +39,7 @@ TEST(gName, Uppercase){
     User(EMAIL, password);
     EXPECT_EQ(getUsername(),EMAIL);
 }
+
+//TEST
 
 #endif
