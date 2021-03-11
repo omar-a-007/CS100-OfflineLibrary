@@ -124,6 +124,8 @@ Media* Category::findMedia(int MID)
 
 Category* Category::findCategory(int CID)
 {
+    if (this == nullptr) return nullptr;
+    if (this->CID == CID ) return this;
     for (const auto& c : children)
     {
         if (Category* cat = dynamic_cast<Category*>(c))
@@ -138,6 +140,8 @@ Category* Category::findCategory(int CID)
 
 Category* Category::findCategory(const std::string& title)
 {
+    if (this == nullptr) return nullptr;
+    if (this->title == title ) return this;
     for (const auto& c : children)
     {
         if (Category* cat = dynamic_cast<Category*>(c))
@@ -167,6 +171,14 @@ void Category::simpleDisplay(const std::string& prepend, std::ostream& stream)
     stream << prepend << "Category: " << title << std::endl;
     stream << prepend << "------------------------------------------------"  << std::endl;
     for (const auto& c : children) c->simpleDisplay(prepend + "\t", stream);
+}
+
+void Category::simpleDisplay(bool isRoot, const std::string& prepend, std::ostream& stream)
+{
+    if (isRoot)
+    {
+        for (const auto& c : children) c->simpleDisplay(prepend, stream);
+    }
 }
 
 void Category::display(bool isRoot, const std::string& prepend, std::ostream& stream)

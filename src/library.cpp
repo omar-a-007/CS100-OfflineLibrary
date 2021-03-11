@@ -14,7 +14,7 @@ Category* Library::recreateCompositeFromDB()
     DB.getCategories(DBcategories);
     DB.getMedia(DBmedia);
 
-    Category* root = new Category("Root");    // Root Composite Node
+    Category* root = new Category("Root", 0, 0);    // Root Composite Node
     
     for (auto c : DBcategories)
     {   
@@ -37,8 +37,7 @@ void Library::showTransactions(int UID, bool showHistory, std::ostream& stream)
     if (UID != getUID())
         clearBorrowLog();
     if (borrowLog.size() == 0)
-        DB.getTransactions(UID, borrowLog);
-        //DBwrapper::getTransactions(UID, borrowLog);
+        DBwrapper::getTransactions(UID, borrowLog);
     for (auto& i : borrowLog)
         i->display(root, showHistory, stream);
 }
@@ -55,7 +54,7 @@ bool Library::borrow(Media* media)
     if (result) {
         borrowLog.push_back(t);
         media->setQuantityAvailable(media->getQuantityAvailable() - 1);
-        DBwrapper::mediaSetQty(media->getMID(), media->getQuantityAvailable());
+        DBwrapper::setMediaQty(media->getMID(), media->getQuantityAvailable());
     }
     else {delete t;}
     return result;

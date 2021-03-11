@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+ #include <stdexcept>
 #include "../headers/library.h"
 #include "../headers/DBwrapper.h"
 //#include "../headers/constants.h"
@@ -61,6 +62,7 @@ PROMPT.push_back(R"(----------------------
 Library Admin Menu
 ----------------------
   B - [B]orrow from the Library
+  L - [L]ibrary Management
   W - [W]hat's being borrowed by a user
   
   S - [S]how All Categories
@@ -164,39 +166,163 @@ Choose an option:)");
 
       // [B]orrow from the Library
       else if (userAction == 'B' && lib.getPrivelageLevel() != 0) {
-         std::string searchMethod; 
+         std::string searchMethod, search; int MID; bool result;
          std::cout << "Would you like to enter the Media ID or Title (Type [T]itle for title)? ";
-         std::cin >> searchMethod;
+         std::getline(std::cin>>std::ws, searchMethod);
+
          searchMethod = searchMethod[0] == 't' || searchMethod[0] == 'T' ? "Title" : "Media ID";
-         std::cout << searchMethod << ": ";
-         if (searchMethod == "Title") {
-            std::string search;
-            std::cin >> search;
-            try {lib.borrow(lib.findMedia(search)); std::cout << "Borrowing the item was a success! Please return within 60 days.\nAfter 60 days the item will be considered lost and your account will be charged the replacement cost.";}
-            catch(std::exception &err) { std::cout << "ERROR! Please try again."; }
+
+         try {
+            std::cout << searchMethod << ": ";       
+            std::getline(std::cin>>std::ws, search);
+            if (searchMethod == "Media ID") result = lib.borrow(lib.findMedia(stoi(search)));
+            else result = lib.borrow(lib.findMedia(search));
+
+            (result) ? std::cout << "Borrowing the item was a success! Please return within 60 days.\nAfter 60 days the item will be considered lost and your account will be charged the replacement cost." << std::endl 
+                     : std::cout << "ERROR! Please make sure the Title/MID exist." << std::endl;            
          }
-         else {
-            int search;
-            std::cin >> search;
-            try {lib.borrow(lib.findMedia(search)); std::cout << "Borrowing the item was a success! Please return within 60 days.\nAfter 60 days the item will be considered lost and your account will be charged the replacement cost.";}
-            catch(std::exception &err) { std::cout << "ERROR! Please try again."; }
+         catch(std::exception &err) { std::cout << "ERROR! " << err.what(); }
+      }
+
+      // L - [L]ibrary Management
+      else if (userAction == 'L' && lib.getPrivelageLevel() == 2) {
+         int input = 0; std::string sInput;
+         while (input < 1 || input > 5)
+         {
+            try {
+               std::cout << "\nLibrary Management:\n 1. Create a new Category\n 2. Create a new Media Entry\n 3. Modify a Category's Title\n 4. Modify an item's quantity available\n 5. Return to the previous menu" << std::endl;
+               std::getline(std::cin>>std::ws, sInput); input = stoi(sInput);
+            } catch(std::exception const& err) { std::cout << "ERROR! Must enter a number." << std::endl; }
+
+            if (input == 1) { // Create Category
+               std::string cTitle; std::string cParent; int PID;
+               std::cout << "New Category Title: ";
+               std::getline(std::cin>>std::ws, cTitle);
+
+
+               std::cout << "Parent Category ('x' for none): ";
+               std::getline(std::cin>>std::ws, cParent);
+               
+               try{
+                  Category* parent = (cParent == "x" || cParent == "X") ? lib.findCategory(0) :  lib.findCategory(cParent);
+                  if (parent == nullptr ) throw std::runtime_error("Invalid parent category.");
+
+                  PID = parent->getCID();
+                  int CID = DBwrapper::addCategory(PID, cTitle);
+                  if (CID == -1) throw std::runtime_error("DB call failed.");
+
+                  parent->add(new Category(cTitle, CID, PID));
+                  std::cout<< "Successfully added category.\n\n";
+               }
+               catch(std::exception const& err) { std::cout << "ERROR! " << err.what() << std::endl; }
+
+               input = 0;    
+            }
+            else if (input == 2) { // Create Media
+               std::string Title, mediaType, Author, ISBN = "", sParent, sLength, sQty, sCost; int CID, MID, Length, Qty; double Cost; bool valid = false;
+               while (!valid) {
+                  std::cout << "Media Type (Book, DVD, AudioBook) : ";
+                  std::getline(std::cin>>std::ws, mediaType);
+                  
+                  switch (char(std::tolower(mediaType[0])))
+                  {
+                     case 'b': mediaType = "Book";      valid = true; break;
+                     case 'd': mediaType = "DVD";       valid = true; break;
+                     case 'a': mediaType = "AudioBook"; valid = true; break;
+                  }
+               }
+               std::cout << "New " << mediaType << " Title: ";   std::getline(std::cin>>std::ws, Title);
+               std::cout << "Author or Director: ";              std::getline(std::cin>>std::ws, Author);
+               std::cout << "Category ('x' for none): ";         std::getline(std::cin>>std::ws, sParent);
+               if (mediaType == "Book") {
+                  std::cout << "ISBN: ";                         std::getline(std::cin>>std::ws, ISBN);
+               }
+               
+               try{
+                  std::cout << "Page count or Duration (in minutes): ";    std::getline(std::cin>>std::ws, sLength); Length = stoi(sLength);
+                  std::cout << "Cost: ";                                   std::getline(std::cin>>std::ws, sCost); Cost = stod(sCost);
+                  std::cout << "Quantity: ";                               std::getline(std::cin>>std::ws, sQty); Length = stoi(sQty);
+
+                  Category* parent = (sParent == "x" || sParent == "X") ? lib.findCategory(0) :  lib.findCategory(sParent);
+                  if (parent == nullptr ) throw std::runtime_error("Invalid Category.");
+                  CID = parent->getCID();
+
+                  MID = DBwrapper::addMedia(CID, mediaType, Title, Author, Cost, Qty, Length, ISBN);
+                  if (MID == -1) throw std::runtime_error("DB call failed.");
+
+                  Media* m;
+                       if (mediaType == "Book")      m = new Book      (Title, Author, ISBN, Length, Cost, MID, CID, Qty);
+                  else if (mediaType == "AudioBook") m = new AudioBook (Title, Author, Length, Cost, MID, CID, Qty);
+                  else if (mediaType == "DVD")       m = new DVD       (Title, Author, Length, Cost, MID, CID, Qty);
+                  parent->add(m);
+
+                  std::cout<< "Successfully added " << mediaType << std::endl << std::endl;
+               }
+               catch(std::exception const& err) { std::cout << "ERROR! " << err.what() << std::endl; }
+
+               input = 0;
+            }
+            else if (input == 3) { // Modify Category Title
+               std::string cTitle, nTitle, cParent; bool success;
+               std::cout << "Category Title: ";                    std::getline(std::cin>>std::ws, cTitle);
+               std::cout << "New Category Title: ";                std::getline(std::cin>>std::ws, nTitle);
+               
+               try{
+                  Category* c = lib.findCategory(cTitle);
+                  if (c == nullptr ) throw std::runtime_error("Invalid Category Title.");
+
+                  success = DBwrapper::setCategoryTitle(c->getCID(), nTitle);
+                  if (!success) throw std::runtime_error("DB call failed.");
+
+                  c->setTitle(nTitle);
+                  std::cout<< "Successfully changed category title.\n\n";
+               }
+               catch(std::exception const& err) { std::cout << "ERROR! " << err.what() << std::endl; }
+
+               input = 0;
+            }
+            else if (input == 4) {
+               std::string mTitle, sQty; int Qty; bool success;
+               
+               try{
+                  std::cout << "Media Title: ";                 std::getline(std::cin>>std::ws, mTitle);
+                  Media* m;
+                  m = lib.findMedia(mTitle);
+                  if (m == nullptr ) throw std::runtime_error("Invalid Media Title.");
+
+                  std::cout << "New Quantity: ";                std::getline(std::cin>>std::ws, sQty); Qty = stoi(sQty);
+
+                  success = DBwrapper::setMediaQty(m->getMID(), Qty);
+                  if (!success) throw std::runtime_error("DB call failed.");
+
+                  m->setTitle(mTitle);
+                  std::cout<< "Successfully changed" << mTitle << " quantity.\n" << std::endl;
+               }
+               catch(std::exception const& err) { std::cout << "ERROR! " << err.what() << std::endl; }
+
+               input = 0;
+            }
          }
       }
 
       // [W]hat's being borrowed by a user
       else if (userAction == 'W' && lib.getPrivelageLevel() != 0) {
-         int UID = lib.getUID();
+         int UID = lib.getUID(); std::string sUID;
          std::string historicalView;
-         if (lib.getPrivelageLevel() == 2) {
-            std::cout << "Please enter the users UID that you'd like to see the borrow log of: ";
-            std::cin >> UID;
-         }
-         std::cout << "Would you like to see your borrow history the well (Y/yes to view)? ";
-         std::cin >> historicalView;
-         bool showHistory = (historicalView[0] == 'y' || historicalView[0] == 'Y' ? true : false);
+         try {
+            if (lib.getPrivelageLevel() == 2) {
+               std::cout << "UID to show borrow log of: ";               std::getline(std::cin>>std::ws, sUID); UID = stoi(sUID);
+            }
+            std::cout << "View history as well (Y/yes)? ";               std::getline(std::cin>>std::ws, historicalView);
+            std::cout << "\nBorrow List" << std::endl;
+            std::cout << "-----------" << std::endl;
+            bool showHistory = (historicalView[0] == 'y' || historicalView[0] == 'Y' ? true : false);
 
-         lib.showTransactions(UID, showHistory);
-      }      
+            lib.showTransactions(UID, showHistory);
+         }
+         catch(std::exception const& err) { std::cout << "ERROR! " << err.what() << std::endl; }
+      }
+
 
       // [V]iew All Items
       else if (userAction == 'V' && lib.getPrivelageLevel() != 0) {
