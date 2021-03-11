@@ -67,8 +67,197 @@ For testing, we used `googletest` to conduct unit testing. We have a `unit_test.
 
 We also tested the program for memory leaks by compiling a debug build and running the program through `valgrind`, simulating typical user and admin operations before quitting, to make sure there's no memory leak. 
 
-<details><summary>Googletest and Valgrind results</summary>
-<p>
+<details><summary>Googletest result</summary>
+
+
+```
+[xxie043@hammer final-project-oalk001-smaht003-xxie043]$ ./test
+[==========] Running 72 tests from 5 test suites.
+[----------] Global test environment set-up.
+[----------] 7 tests from iComponentTest
+[ RUN      ] iComponentTest.simpleBookLeaf
+[       OK ] iComponentTest.simpleBookLeaf (0 ms)
+[ RUN      ] iComponentTest.emptyComposite
+[       OK ] iComponentTest.emptyComposite (1 ms)
+[ RUN      ] iComponentTest.simpleComposite
+[       OK ] iComponentTest.simpleComposite (0 ms)
+[ RUN      ] iComponentTest.findMedia_DNE
+[       OK ] iComponentTest.findMedia_DNE (0 ms)
+[ RUN      ] iComponentTest.findCategory_DNE
+[       OK ] iComponentTest.findCategory_DNE (0 ms)
+[ RUN      ] iComponentTest.nestedComposite_recusriveDisplay
+[       OK ] iComponentTest.nestedComposite_recusriveDisplay (0 ms)
+[ RUN      ] iComponentTest.nestedCompsosite_recursiveFunctions
+[       OK ] iComponentTest.nestedCompsosite_recursiveFunctions (0 ms)
+[----------] 7 tests from iComponentTest (1 ms total)
+
+[----------] 11 tests from UserTest
+[ RUN      ] UserTest.login_success
+[       OK ] UserTest.login_success (50 ms)
+[ RUN      ] UserTest.login_FAIL
+[       OK ] UserTest.login_FAIL (2 ms)
+[ RUN      ] UserTest.createAccount_success
+[       OK ] UserTest.createAccount_success (4 ms)
+[ RUN      ] UserTest.STATIC_createAccount_success
+[       OK ] UserTest.STATIC_createAccount_success (4 ms)
+[ RUN      ] UserTest.createAccount_FAIL_AlreadyExists
+[       OK ] UserTest.createAccount_FAIL_AlreadyExists (2 ms)
+[ RUN      ] UserTest.deleteAccount_success
+[       OK ] UserTest.deleteAccount_success (5 ms)
+[ RUN      ] UserTest.deleteAccount_FAIL_invalidPass
+[       OK ] UserTest.deleteAccount_FAIL_invalidPass (4 ms)
+[ RUN      ] UserTest.changePassword_success
+[       OK ] UserTest.changePassword_success (5 ms)
+[ RUN      ] UserTest.changePassword_FAIL_invalidPassword
+[       OK ] UserTest.changePassword_FAIL_invalidPassword (4 ms)
+[ RUN      ] UserTest.changePassword_FAIL_notLoggedIn
+[       OK ] UserTest.changePassword_FAIL_notLoggedIn (2 ms)
+[ RUN      ] UserTest.logout
+[       OK ] UserTest.logout (2 ms)
+[----------] 11 tests from UserTest (84 ms total)
+
+[----------] 15 tests from TransactionTest
+[ RUN      ] TransactionTest.fullConstructor
+[       OK ] TransactionTest.fullConstructor (2 ms)
+[ RUN      ] TransactionTest.partialConstructor
+[       OK ] TransactionTest.partialConstructor (0 ms)
+[ RUN      ] TransactionTest.partialConstructor_create_success
+[       OK ] TransactionTest.partialConstructor_create_success (1 ms)
+[ RUN      ] TransactionTest.partialConstructor_create_FAIL_badMID
+ERROR! Unable to add borrow item.
+         Error Details... SQLite exception: FOREIGN KEY constraint failed
+[       OK ] TransactionTest.partialConstructor_create_FAIL_badMID (1 ms)
+[ RUN      ] TransactionTest.partialConstructor_create_FAIL_badUID
+ERROR! Unable to add borrow item.
+         Error Details... SQLite exception: FOREIGN KEY constraint failed
+[       OK ] TransactionTest.partialConstructor_create_FAIL_badUID (0 ms)
+[ RUN      ] TransactionTest.createTransaction_success
+[       OK ] TransactionTest.createTransaction_success (1 ms)
+[ RUN      ] TransactionTest.createTransaction_FAIL_badUID
+ERROR! Unable to add borrow item.
+         Error Details... SQLite exception: FOREIGN KEY constraint failed
+[       OK ] TransactionTest.createTransaction_FAIL_badUID (1 ms)
+[ RUN      ] TransactionTest.createTransaction_FAIL_badMID
+ERROR! Unable to add borrow item.
+         Error Details... SQLite exception: FOREIGN KEY constraint failed
+[       OK ] TransactionTest.createTransaction_FAIL_badMID (0 ms)
+[ RUN      ] TransactionTest.modifyTransaction
+[       OK ] TransactionTest.modifyTransaction (3 ms)
+[ RUN      ] TransactionTest.satisfyTransaction
+[       OK ] TransactionTest.satisfyTransaction (3 ms)
+[ RUN      ] TransactionTest.removeTransaction
+[       OK ] TransactionTest.removeTransaction (3 ms)
+[ RUN      ] TransactionTest.checkIfOverdue_true
+[       OK ] TransactionTest.checkIfOverdue_true (3 ms)
+[ RUN      ] TransactionTest.checkIfOverdue_false
+[       OK ] TransactionTest.checkIfOverdue_false (1 ms)
+[ RUN      ] TransactionTest.display
+[       OK ] TransactionTest.display (3 ms)
+[ RUN      ] TransactionTest.display_returned_Historical_ONandOFF
+[       OK ] TransactionTest.display_returned_Historical_ONandOFF (4 ms)
+[----------] 15 tests from TransactionTest (26 ms total)
+
+[----------] 28 tests from DBwrapperTest
+[ RUN      ] DBwrapperTest.db_Initialization
+[       OK ] DBwrapperTest.db_Initialization (34 ms)
+[ RUN      ] DBwrapperTest.db_addCategory_success
+[       OK ] DBwrapperTest.db_addCategory_success (1 ms)
+[ RUN      ] DBwrapperTest.db_addCategory_FAIL_AlreadyExists
+ERROR! Unable to add category to the DB. Please make sure the category doesn't already exist.
+         Error Details... SQLite exception: UNIQUE constraint failed: category.Title
+[       OK ] DBwrapperTest.db_addCategory_FAIL_AlreadyExists (1 ms)
+[ RUN      ] DBwrapperTest.db_addMedia_success
+[       OK ] DBwrapperTest.db_addMedia_success (1 ms)
+[ RUN      ] DBwrapperTest.db_addMedia_FAIL_AlreadyExists
+ERROR! Unable to add item to the DB. Please make sure the item doesn't already exist and the selected category is accurate.
+         Error Details... SQLite exception: UNIQUE constraint failed: media.Title
+[       OK ] DBwrapperTest.db_addMedia_FAIL_AlreadyExists (0 ms)
+[ RUN      ] DBwrapperTest.db_createAccount_success
+[       OK ] DBwrapperTest.db_createAccount_success (1 ms)
+[ RUN      ] DBwrapperTest.db_createAccount_FAIL_AlreadyExists
+[       OK ] DBwrapperTest.db_createAccount_FAIL_AlreadyExists (1 ms)
+[ RUN      ] DBwrapperTest.db_changePassword_success
+[       OK ] DBwrapperTest.db_changePassword_success (1 ms)
+[ RUN      ] DBwrapperTest.db_changePassword_FAIL_BadUser
+[       OK ] DBwrapperTest.db_changePassword_FAIL_BadUser (0 ms)
+[ RUN      ] DBwrapperTest.db_changePassword_FAIL_BadPass
+[       OK ] DBwrapperTest.db_changePassword_FAIL_BadPass (1 ms)
+[ RUN      ] DBwrapperTest.db_deleteAccount_success
+[       OK ] DBwrapperTest.db_deleteAccount_success (1 ms)
+[ RUN      ] DBwrapperTest.db_deleteAccount_FAIL_BadUser
+ERROR! Unable to delete the only admin account!
+[       OK ] DBwrapperTest.db_deleteAccount_FAIL_BadUser (0 ms)
+[ RUN      ] DBwrapperTest.db_deleteAccount_FAIL_BadPass
+ERROR! Unable to delete the only admin account!
+[       OK ] DBwrapperTest.db_deleteAccount_FAIL_BadPass (0 ms)
+[ RUN      ] DBwrapperTest.db_login_success
+[       OK ] DBwrapperTest.db_login_success (1 ms)
+[ RUN      ] DBwrapperTest.db_login_FAIL_BadUser
+[       OK ] DBwrapperTest.db_login_FAIL_BadUser (0 ms)
+[ RUN      ] DBwrapperTest.db_login_FAIL_BadPass
+[       OK ] DBwrapperTest.db_login_FAIL_BadPass (1 ms)
+[ RUN      ] DBwrapperTest.db_getMedia
+[       OK ] DBwrapperTest.db_getMedia (0 ms)
+[ RUN      ] DBwrapperTest.db_getCategories
+[       OK ] DBwrapperTest.db_getCategories (1 ms)
+[ RUN      ] DBwrapperTest.db_addTransaction_success
+[       OK ] DBwrapperTest.db_addTransaction_success (3 ms)
+[ RUN      ] DBwrapperTest.db_addTransaction_FAIL_badUID
+ERROR! Unable to add borrow item.
+         Error Details... SQLite exception: FOREIGN KEY constraint failed
+[       OK ] DBwrapperTest.db_addTransaction_FAIL_badUID (0 ms)
+[ RUN      ] DBwrapperTest.db_addTransaction_FAIL_badMID
+ERROR! Unable to add borrow item.
+         Error Details... SQLite exception: FOREIGN KEY constraint failed
+[       OK ] DBwrapperTest.db_addTransaction_FAIL_badMID (1 ms)
+[ RUN      ] DBwrapperTest.db_modifyTransaction_success
+[       OK ] DBwrapperTest.db_modifyTransaction_success (1 ms)
+[ RUN      ] DBwrapperTest.db_modifyTransaction_success_largeNumber
+[       OK ] DBwrapperTest.db_modifyTransaction_success_largeNumber (1 ms)
+[ RUN      ] DBwrapperTest.db_modifyTransaction_success_zero
+[       OK ] DBwrapperTest.db_modifyTransaction_success_zero (1 ms)
+[ RUN      ] DBwrapperTest.db_modifyTransaction_success_negativeNumber
+[       OK ] DBwrapperTest.db_modifyTransaction_success_negativeNumber (1 ms)
+[ RUN      ] DBwrapperTest.db_modifyTransaction_FAIL_badTID
+[       OK ] DBwrapperTest.db_modifyTransaction_FAIL_badTID (0 ms)
+[ RUN      ] DBwrapperTest.db_getTransactions
+[       OK ] DBwrapperTest.db_getTransactions (0 ms)
+[ RUN      ] DBwrapperTest.cleanup
+[       OK ] DBwrapperTest.cleanup (0 ms)
+[----------] 28 tests from DBwrapperTest (55 ms total)
+
+[----------] 11 tests from LibraryTest
+[ RUN      ] LibraryTest.login_success
+[       OK ] LibraryTest.login_success (34 ms)
+[ RUN      ] LibraryTest.login_FAIL
+[       OK ] LibraryTest.login_FAIL (2 ms)
+[ RUN      ] LibraryTest.createAccount_success
+[       OK ] LibraryTest.createAccount_success (3 ms)
+[ RUN      ] LibraryTest.STATIC_createAccount_success
+[       OK ] LibraryTest.STATIC_createAccount_success (3 ms)
+[ RUN      ] LibraryTest.createAccount_FAIL_AlreadyExists
+[       OK ] LibraryTest.createAccount_FAIL_AlreadyExists (2 ms)
+[ RUN      ] LibraryTest.deleteAccount_success
+[       OK ] LibraryTest.deleteAccount_success (3 ms)
+[ RUN      ] LibraryTest.deleteAccount_FAIL_invalidPass
+[       OK ] LibraryTest.deleteAccount_FAIL_invalidPass (4 ms)
+[ RUN      ] LibraryTest.changePassword_success
+[       OK ] LibraryTest.changePassword_success (4 ms)
+[ RUN      ] LibraryTest.changePassword_FAIL_invalidPassword
+[       OK ] LibraryTest.changePassword_FAIL_invalidPassword (3 ms)
+[ RUN      ] LibraryTest.changePassword_FAIL_notLoggedIn
+[       OK ] LibraryTest.changePassword_FAIL_notLoggedIn (1 ms)
+[ RUN      ] LibraryTest.borrowMedia
+[       OK ] LibraryTest.borrowMedia (4 ms)
+[----------] 11 tests from LibraryTest (63 ms total)
+
+[----------] Global test environment tear-down
+[==========] 72 tests from 5 test suites ran. (229 ms total)
+[  PASSED  ] 72 tests.
+```
+</details>
+
+<details><summary>Valgrind result</summary>
 
 ```
 [xxie043@hammer final-project-oalk001-smaht003-xxie043]$ valgrind --leak-check=full ./library
@@ -85,3 +274,4 @@ We also tested the program for memory leaks by compiling a debug build and runni
 ==10661== For counts of detected and suppressed errors, rerun with: -v
 ==10661== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
+</details>
