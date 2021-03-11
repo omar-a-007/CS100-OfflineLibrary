@@ -12,6 +12,8 @@
 using namespace std;
 
 TEST(LibraryTest, login_success) {
+    remove("test.db3");
+
     Library lib;
     EXPECT_EQ(lib.getUID(), 0);
     EXPECT_EQ(lib.getUsername(), "");
@@ -95,7 +97,7 @@ TEST(LibraryTest, findMedia_ByMID_success) {
     Media* m  = lib.findMedia(1);
     EXPECT_TRUE(m != nullptr);
 
-    EXPECT_EQ(m->getTitle(), "Ghandi");
+    EXPECT_EQ(m->getTitle(), "Untamed");
 }
 
 TEST(LibraryTest, findMedia_ByTitle_FAIL_doesntExist) {
@@ -143,7 +145,7 @@ TEST(LibraryTest, listUserAccounts) {
 
     stringstream testSS;
     lib.listUserAccounts(testSS);
-    EXPECT_EQ(testSS.str(), "[1] admin");
+    EXPECT_EQ(testSS.str(), "[1] admin\n[2] a\n[3] AAA\n[4] c\n[5] d\n[6] e\n");
 }
 
 
