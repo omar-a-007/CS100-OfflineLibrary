@@ -74,7 +74,8 @@ Library Admin Menu
   P - Change [P]assword
   C - [C]reate Account
   D - [D]elete Account
-  M - [M]odify User's Privelage Level 
+  M - [M]odify User's Privelage Level
+  U - [U]ser Account List 
   Q - [Q]uit
 
 Choose an option:)");
@@ -163,8 +164,10 @@ Choose an option:)");
             std::cout << "Account deleted. We're sorry to see you go.\n" : 
             std::cout << "ERROR! Unable to delete account. Incorrect password provided. Please try again.\n";
       }
-
-      // [B]orrow from the Library
+      //U - [U]ser Account List
+      else if (userAction == 'U' && lib.getPrivelageLevel() == 2) {
+            lib.listUserAccounts();
+      }
       else if (userAction == 'B' && lib.getPrivelageLevel() != 0) {
          std::string searchMethod, search; int MID; bool result;
          std::cout << "Would you like to enter the Media ID or Title (Type [T]itle for title)? ";

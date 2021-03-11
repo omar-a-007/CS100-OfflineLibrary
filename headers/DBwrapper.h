@@ -38,6 +38,7 @@ class DBwrapper {
         static void getCategories(std::list<Category*>& v);
         static void getMedia(std::list<Media*>& v);
 
+	static void getUserAccounts(std::list<User>& accounts);
         static int addTransaction(int UID, int MID, long DueDate);
         static bool modifyTransaction(int TID, long DueDate);
         static void getTransactions(int UID, std::list<Transaction*>& v);

@@ -38,6 +38,7 @@ class Library : public LibraryManagement
 		int getUID()				{return user.getUID();}
 		
 		// Transaction Related Functions (borrowing, late payments, etc)
+		void listUserAccounts(std::ostream& stream = std::cout);
 		void showTransactions(int UID, bool showHistory, std::ostream& stream = std::cout);
 		void makePayment(int);
 		bool borrow(Media*);
