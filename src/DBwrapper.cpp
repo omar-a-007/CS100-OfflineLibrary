@@ -59,7 +59,7 @@ int DBwrapper::addMedia(int CID, const std::string& mediaType, const std::string
     }
 }
 
-void DBwrapper::mediaSetQty(int MID, int Qty)
+bool DBwrapper::setMediaQty(int MID, int Qty)
 {
     try {   // Open DB file for read/write
         SQLite::Database     db(DBfile, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE);
@@ -69,12 +69,32 @@ void DBwrapper::mediaSetQty(int MID, int Qty)
         query.bind(":MID", MID);
         query.bind(":Qty", Qty);
 
-        query.exec();
+        return query.exec();
     }
     catch (std::exception& e) {
         std::cout << "ERROR! Unable to modify media quantity." << std::endl;
         std::cout << "\t Error Details... SQLite exception: " << e.what() << std::endl;
+        return false;
     }
+}
+
+bool DBwrapper::setCategoryTitle(int CID, const std::string& new_title)
+{
+    try {   // Open DB file for read/write
+        SQLite::Database     db(DBfile, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE);
+        SQLite::Statement query(db, "UPDATE category SET Title = :Title WHERE CID = :CID");
+        db.exec("PRAGMA foreign_keys = ON;");   // Must be run each time a new DB connection is established in order to enforce foreign-key constraints
+
+        query.bind(":CID", CID);
+        query.bind(":Title", new_title);
+
+        return query.exec();
+    }
+    catch (std::exception& e) {
+        std::cout << "ERROR! Unable to modify media quantity." << std::endl;
+        std::cout << "\t Error Details... SQLite exception: " << e.what() << std::endl;
+        return false;
+    }  
 }
 
 

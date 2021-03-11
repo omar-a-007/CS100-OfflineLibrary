@@ -24,7 +24,7 @@ const std::string DBwrapper::DBfile{"library.db3"};
 int main ()
 {
     Library lib;
-
+    lib.findCategory("ASD");
     
 
     return 0;

@@ -28,7 +28,7 @@ class LibraryManagement {
         ~LibraryManagement()                                     { delete root; delete exporter;}
 
         void display(std::ostream& stream = std::cout)           { root->display(true, "", stream); }
-        void simpleDisplay(std::ostream& stream = std::cout)	   { root->simpleDisplay("", stream); }
+        void simpleDisplay(std::ostream& stream = std::cout)	 { root->simpleDisplay("", stream); }
         void listCategories(std::ostream& stream = std::cout)    { listCategories_recursive(root, "", stream); }
         
         Media* findMedia(int MID)                                { return root->findMedia(MID);      }
