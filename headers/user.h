@@ -10,7 +10,7 @@ class User{
 		std::string email;
 	public:
 		User()
-			: privelageLevel(0) {};
+			: UID(0), privelageLevel(0) {};
 		User(const std::string& email, const std::string& password);
 
 		const int getUID()							{return this->UID;} 
