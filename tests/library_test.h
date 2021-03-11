@@ -82,6 +82,71 @@ TEST(LibraryTest, changePassword_FAIL_notLoggedIn) {
     EXPECT_FALSE(lib.changePassword("zzz", "def"));
 }
 
+TEST(LibraryTest, findMedia_ByTitle_success) {
+    Library lib;
+    Media* m  = lib.findMedia("Ghandi");
+    EXPECT_TRUE(m != nullptr);
+
+    EXPECT_EQ(m->getTitle(), "Ghandi");
+}
+
+TEST(LibraryTest, findMedia_ByMID_success) {
+    Library lib;
+    Media* m  = lib.findMedia(1);
+    EXPECT_TRUE(m != nullptr);
+
+    EXPECT_EQ(m->getTitle(), "Ghandi");
+}
+
+TEST(LibraryTest, findMedia_ByTitle_FAIL_doesntExist) {
+    Library lib;
+    Media* m  = lib.findMedia("ASDGF");
+    EXPECT_TRUE(m == nullptr);
+}
+
+TEST(LibraryTest, findMedia_ByMID_FAIL_doesntExist) {
+    Library lib;
+    Media* m  = lib.findMedia(999);
+    EXPECT_TRUE(m == nullptr);
+}
+
+TEST(LibraryTest, findCategory_ByTitle_success) {
+    Library lib;
+    Category* c = lib.findCategory("Fiction");
+    EXPECT_TRUE(c != nullptr);
+
+    EXPECT_EQ(c->getTitle(), "Fiction");
+}
+
+TEST(LibraryTest, findCategory_ByMID_success) {
+    Library lib;
+    Category* c = lib.findCategory(2);
+    EXPECT_TRUE(c != nullptr);
+
+    EXPECT_EQ(c->getTitle(), "Fiction");
+}
+
+TEST(LibraryTest, findCategory_ByTitle_FAIL_doesntExist) {
+    Library lib;
+    Category* c = lib.findCategory("ASDGF");
+    EXPECT_TRUE(c == nullptr);
+}
+
+TEST(LibraryTest, findCategory_ByMID_FAIL_doesntExist) {
+    Library lib;
+    Category* c = lib.findCategory(999);
+    EXPECT_TRUE(c == nullptr);
+}
+
+TEST(LibraryTest, listUserAccounts) {
+    Library lib;
+
+    stringstream testSS;
+    lib.listUserAccounts(testSS);
+    EXPECT_EQ(testSS.str(), "[1] admin");
+}
+
+
 TEST(LibraryTest, borrowMedia) {
     Library lib;
     EXPECT_TRUE(lib.login("admin", "pass"));
