@@ -70,5 +70,18 @@ We also tested the program for memory leaks by compiling a debug build and runni
 <details><summary>Googletest and Valgrind results</summary>
 <p>
 
-```$ valgrind ./library
+```
+[xxie043@hammer final-project-oalk001-smaht003-xxie043]$ valgrind --leak-check=full ./library
+==10661== Memcheck, a memory error detector
+==10661== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==10661== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
+==10661== Command: ./library
+==10661== HEAP SUMMARY:
+==10661==     in use at exit: 0 bytes in 0 blocks
+==10661==   total heap usage: 1,104 allocs, 1,104 frees, 686,418 bytes allocated
+==10661==
+==10661== All heap blocks were freed -- no leaks are possible
+==10661==
+==10661== For counts of detected and suppressed errors, rerun with: -v
+==10661== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
