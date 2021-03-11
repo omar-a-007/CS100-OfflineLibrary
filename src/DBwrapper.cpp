@@ -247,7 +247,7 @@ bool DBwrapper::deleteAccount( const std::string& username, const std::string& p
         SQLite::Database    db(DBfile, SQLite::OPEN_READWRITE|SQLite::OPEN_CREATE); 
         SQLite::Statement query(db, "SELECT * FROM users WHERE privelageLevel = 2");
         int count = 0;
-        while query.executeStep() ++count;
+        while (query.executeStep()) ++count;
         if(count < 2) throw std::runtime_error("ERROR! Unable to delete the only admin account!");
 
         SQLite::Statement query2(db, "DELETE FROM users WHERE email = :email AND password = :pass;");
@@ -255,7 +255,7 @@ bool DBwrapper::deleteAccount( const std::string& username, const std::string& p
         query2.bind(":pass", password);
         return query2.exec();
     }
-    catch (const std::runtime_error& error) {
+    catch (const std::runtime_error& e) {
         std::cout << e.what() << std::endl;
         return false;        
     }
