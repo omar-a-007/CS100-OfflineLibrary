@@ -48,17 +48,17 @@ A combination of the Facade, Composition, and Strategy design patterns are used.
  ## Screenshots
  > Screenshots of the input/output after running your application
  ## Installation/Usage
-To install this program, we use 'git clone' to get the repository, and 'cd' into it.
+To install this program, we use `git clone` to get the repository, and `cd` into it.
 ```
 git clone https://github.com/cs100/final-project-oalk001-smaht003-xxie043.git
 cd final-project-oalk001-smaht003-xxie043
 ```
-We will be using 'cmake .' and 'make' to create executables (use 'cmake3 .' on hammer), which will be 'test' and 'library'.
+We will be using `cmake .` and `make` to create executables (use `cmake3 .` on hammer), which will be `test` and `library`.
 ```
 cmake .
 make
 ```
-After that, we will run the program by running the 'library' executable.
+After that, we will run the program by running the `library` executable.
 ```
 ./library
 ```
