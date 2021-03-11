@@ -32,6 +32,17 @@ Category* Library::recreateCompositeFromDB()
 	return root;
 }
 
+void Library::listUserAccounts(std::ostream& stream)
+{
+   std::list<User> accounts;
+   DBwrapper::getUserAccounts(accounts);
+   
+   for (auto& a : accounts) 
+   {
+       stream << "[" << a.getUID() << "] " <<  a.getUsername() << std::endl;
+   }
+}
+
 void Library::showTransactions(int UID, bool showHistory, std::ostream& stream) 
 {
     if (UID != getUID())
