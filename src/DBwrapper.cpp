@@ -261,6 +261,18 @@ bool DBwrapper::deleteAccount( const std::string& username, const std::string& p
         std::cout << "\t Error Details... SQLite exception: " << e.what() << std::endl;
         return false;
     }
+    query = SELECT * FROM users WHERE privelageLevel = 2;
+    int count = 0;
+    while query.executeStep(){
+        ++count;
+    }
+    if(count <= 0>){
+        std::cout << "ERROR! Unable to delete the only admin account!" << std::endl;
+        return false;
+    }
+    else{
+        return true;
+    }
 }
 
 bool DBwrapper::changePassword(const std::string& username, const std::string& current_password, const std::string& new_password)
